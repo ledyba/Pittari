@@ -1,0 +1,223 @@
+/* General */
+
+html {
+    margin: 0;
+    /*padding: 0; SELECT NOT DISPLAYED CORRECTLY IN FIREFOX */
+}
+
+body {
+    background: #FFFFFF;
+}
+
+a {
+    color:#000000;
+}
+a:hover {
+    color:#ff2222;
+}
+
+a#anchor {
+    color:#000000;
+}
+
+h1 {
+    font-size: xx-large;
+    font-weight: bold;
+    margin: 0.67em 0px;
+}
+h2 {
+    font-size: x-large;
+    font-weight: bold;
+    margin: 0.83em 0px;
+}
+h3 {
+    font-size: large;
+    font-weight: bold;
+    margin: 1.0em 0px;
+}
+
+input,select,textarea {
+    background: #ffffff;
+    border-width: 1px;
+    border-style: dotted;
+    border-color: #000000;
+    color: black;
+}
+
+hr{
+    border-width: 2px 0px 0px 0px;
+    border-style: dotted;
+    border-color: #000000;
+}
+
+table {
+    background: #ffffff;
+    border-width: 2px;
+    border-style: dotted;
+    border-color: #000000;
+    border-collapse:collapse;
+    margin: 5px;
+}
+
+th{
+    background: #000000;
+    border-width: 2px;
+    border-style: dotted;
+    border-color: #ffffff;
+    color: #ffffff
+}
+
+td{
+    background: #ffffff;
+    border-width: 2px;
+    border-style: dotted;
+    border-color: #000000;
+}
+
+/* それぞれ */
+
+
+.spinner {
+    padding: 5px;
+    position: absolute;
+    right: 0;
+}
+
+div#main {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border: #000000 dotted 2px;
+}
+
+div#header {
+    background-color: #ffffff;
+    padding: 5px;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+div#menubar {
+    padding: 5px;
+    font-size: small;
+    border-top: 2px dotted #000000;
+}
+
+div#main-box {
+    border-top: #000000 dotted 2px;
+}
+
+div#content {
+    width: 600px;
+    padding: 10px;
+    float: right;
+}
+
+div#sidebar {
+    width: 170px;
+    padding: 5px;
+}
+
+div#footer {
+    clear:both;
+    padding: 5px;
+    border-top: #000000 dotted 2px;
+}
+
+div.module {
+    border: 2px dotted #000000;
+    margin-bottom: 5px;
+}
+
+div.module-header {
+    padding: 2px;
+}
+div.module-content {
+    border-top: #000000 dotted 2px;
+    padding: 2px;
+}
+
+/*ファイルアップロード*/
+table.form, tr.prop, td.name, td.value{
+    border: none;
+}
+
+/* MESSAGES AND ERRORS */
+
+.message {
+    background: #f3f8fc url(../images/skin/information.png) 8px 50% no-repeat;
+    border: 1px solid #b2d1ff;
+    color: #006dba;
+    margin: 10px 0 5px 0;
+    padding: 5px 5px 5px 30px
+}
+
+div.errors {
+    background: #fff3f3;
+    border: 1px solid red;
+    color: #cc0000;
+    margin: 10px 0 5px 0;
+    padding: 5px 0 5px 0;
+}
+div.errors ul {
+    list-style: none;
+    padding: 0;
+}
+div.errors li {
+    background: url(../images/skin/exclamation.png) 8px 0% no-repeat;
+    line-height: 16px;
+    padding-left: 30px;
+}
+
+td.errors select {
+    border: 1px solid red;
+}
+td.errors input {
+    border: 1px solid red;
+}
+
+ /* Photo */
+
+ img.face_image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+div.pos_wrapper {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.pos_selector {
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid black;
+    background-color: white;
+    position: absolute;
+    z-index: 1000;
+    cursor:move;
+}
+
+div.pos_meter {
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid black;
+    background-color: silver;
+    position: absolute;
+}
+
+select.document_size_list {
+    width: 120px;
+}
+
+input.photo_size{
+    width: 80px;
+}
+div.guide_wrapepr{
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    border: 1px solid black;
+}
