@@ -22,6 +22,8 @@ import           Snap.Util.FileServe
 import qualified Heist.Interpreted as I
 import           Snap.Util.FileUploads
 import           Snap.Iteratee
+import           Control.Monad.Trans
+import           Image ( resize, DPI(DPI), Paper(Paper), ImageSize(ImageSize) )
 ------------------------------------------------------------------------------
 import           Application
 
@@ -66,7 +68,9 @@ handleUpload = method GET (redirect "/") <|> method POST handlePost
     handlePost =
       do
         ret <- handleMultipart defaultUploadPolicy (\p -> process p)
-        writeText $ T.pack $ show ret
+        --writeText $ T.pack $ show ret
+        buff <- liftIO $ resize (DPI 300) (Paper 300.0 300.0) (ImageSize 300.0 300.0) undefined
+        writeBS buff
 ------------------------------------------------------------------------------
 -- | The application's routes.
 routes :: [(ByteString, Handler App App ())]

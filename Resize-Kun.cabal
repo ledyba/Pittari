@@ -26,6 +26,7 @@ Executable Resize-Kun
     JuicyPixels               >= 3.0,
     cairo                     >= 0.12.0,
     vector                    >= 0.10,
+    temporary                 >= 1.2,
     bytestring                >= 0.9.1   && < 0.11,
     heist                     >= 0.12    && < 0.13,
     MonadCatchIO-transformers >= 0.2.1   && < 0.4,
@@ -65,3 +66,4 @@ Executable Resize-Kun
       ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
                    -fno-warn-orphans
   other-modules:  Image
+  extra-libraries: 
