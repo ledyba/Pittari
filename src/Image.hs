@@ -1,7 +1,6 @@
 module Image (
     resize,
     loadImage,
-    DPI(DPI),
     Paper(Paper),
     ImageSize(ImageSize)
 ) where
@@ -17,9 +16,8 @@ import System.IO.Temp
 import GHC.Float
 import GHC.IO.Handle (hSeek, SeekMode(AbsoluteSeek))
 
-newtype DPI = DPI Int
-data Paper = Paper Float Float
-data ImageSize = ImageSize Float Float
+data Paper = Paper !Float !Float
+data ImageSize = ImageSize !Float !Float
 
 ensureRGBA8 :: DynamicImage -> Either String (Image PixelRGBA8)
 ensureRGBA8 (ImageY8 img)     = Right $ promoteImage img
@@ -57,23 +55,31 @@ image2surface img8 = toSurface img8
             h = imageHeight img
             stride = w * componentCount (undefined :: PixelRGBA8)
 
-pt2cm :: Float -> Double
-pt2cm cm = (float2Double cm) * 72.0 / 2.54;
+cm2pt :: Float -> Double
+cm2pt cm = (float2Double cm) * 72.0 / 2.54;
+px2pt px = float2Double px
 
-resize :: DPI -> Paper -> ImageSize -> (Image PixelRGBA8) -> IO (ByteString)
-resize dpi (Paper paperWidth paperHeight) imageSize image = do
-    withSystemTempFile "img" (\ fpath hand -> do
+resize :: Paper -> ImageSize -> (Image PixelRGBA8) -> IO (ByteString)
+resize (Paper paperWidth paperHeight) (ImageSize imageWidth imageHeight) image = do
+    withSystemTempFile "img" $ \fpath hand -> do
         withPDFSurface fpath pdfWidth pdfHeight render
         hSeek hand AbsoluteSeek 0
         hGetContents hand
-        )
     where
-        pdfWidth = pt2cm paperWidth
-        pdfHeight = pt2cm paperHeight
+        pdfWidth = cm2pt paperWidth
+        pdfHeight = cm2pt paperHeight
+        imgH = cm2pt imageHeight
+        imgW = cm2pt imageWidth
         render surface = do
             imgSurf <- image2surface image
+            origW <- imageSurfaceGetWidth imgSurf
+            origH <- imageSurfaceGetHeight imgSurf
             renderWith surface $ do
-                setSourceSurface imgSurf 0.0 0.0
+                save
+                translate (pdfWidth/2.0) (pdfHeight/2.0)
+                scale (imgW/(fromIntegral origW)) (imgH/(fromIntegral origH))
+                translate (-(fromIntegral origW) / 2.0) (-(fromIntegral origH) / 2.0)
+                setSourceSurface imgSurf 0 0
                 paint
             return surface
 

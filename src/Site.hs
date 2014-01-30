@@ -24,7 +24,7 @@ import           Snap.Util.FileUploads
 import           Snap.Iteratee
 import           Control.Monad.Trans
 import           System.IO.Temp
-import           Image ( loadImage, resize, DPI(DPI), Paper(Paper), ImageSize(ImageSize) )
+import           Image ( loadImage, resize, Paper(Paper), ImageSize(ImageSize) )
 ------------------------------------------------------------------------------
 import           Application
 
@@ -76,7 +76,7 @@ handleUpload = method GET (redirect "/") <|> method POST handlePost
         case eimg of
             Left x -> writeText $ T.pack x
             Right img -> do
-                binary <- liftIO $ resize (DPI 300) (Paper 300.0 300.0) (ImageSize 300.0 300.0) img
+                binary <- liftIO $ resize (Paper 300.0 300.0) (ImageSize 100.0 100.0) img
                 writeBS binary
         
 ------------------------------------------------------------------------------
