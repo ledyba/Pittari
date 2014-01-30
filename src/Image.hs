@@ -1,5 +1,6 @@
 module Image (
     resize,
+    loadImage,
     DPI(DPI),
     Paper(Paper),
     ImageSize(ImageSize)
@@ -30,10 +31,12 @@ ensureRGBA8 (ImageRGBF _)     = Left "Not compatible"
 ensureRGBA8 (ImageYF _)       = Left "Not compatible"
 ensureRGBA8 _                 = Left "Not compatible"
 
-loadImage :: ByteString -> Either String (Image PixelRGBA8)
+loadImage :: FilePath -> IO ( Either String (Image PixelRGBA8) )
 loadImage b = do
-    img <- decodeImage b
-    ensureRGBA8 img
+    img <- readImage b
+    case img of
+        Left xxx -> return $ Left xxx
+        Right imag -> return $ ensureRGBA8 imag
 
 image2surface :: Image PixelRGBA8 -> IO (Surface)
 image2surface img8 = toSurface img8
@@ -42,8 +45,13 @@ image2surface img8 = toSurface img8
     toSurface img = unsafeWith (imageData img) (ptrToSurface img)
     
     ptrToSurface :: Image PixelRGBA8 -> Ptr Word8 -> IO Surface
-    ptrToSurface img ptr = 
-        createImageSurfaceForData (castPtr ptr) FormatARGB32 w h stride
+    ptrToSurface img ptr = do
+        src <- createImageSurfaceForData (castPtr ptr) FormatARGB32 w h stride
+        surf <- createImageSurface FormatARGB32 w h
+        renderWith surf $ do
+                setSourceSurface src 0.0 0.0
+                paint
+        return surf
         where
             w = imageWidth img
             h = imageHeight img
@@ -64,9 +72,8 @@ resize dpi (Paper paperWidth paperHeight) imageSize image = do
         pdfHeight = pt2cm paperHeight
         render surface = do
             imgSurf <- image2surface image
-            renderWith surface (do
+            renderWith surface $ do
                 setSourceSurface imgSurf 0.0 0.0
                 paint
-                )
             return surface
 

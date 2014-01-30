@@ -23,7 +23,8 @@ import qualified Heist.Interpreted as I
 import           Snap.Util.FileUploads
 import           Snap.Iteratee
 import           Control.Monad.Trans
-import           Image ( resize, DPI(DPI), Paper(Paper), ImageSize(ImageSize) )
+import           System.IO.Temp
+import           Image ( loadImage, resize, DPI(DPI), Paper(Paper), ImageSize(ImageSize) )
 ------------------------------------------------------------------------------
 import           Application
 
@@ -64,13 +65,20 @@ handleNewUser = method GET handleForm <|> method POST handleFormSubmit
 handleUpload :: Handler App App ()
 handleUpload = method GET (redirect "/") <|> method POST handlePost
   where
-    process part = continue (\a -> (yield (partFileName part) a))
-    handlePost =
-      do
-        ret <- handleMultipart defaultUploadPolicy (\p -> process p)
-        --writeText $ T.pack $ show ret
-        buff <- liftIO $ resize (DPI 300) (Paper 300.0 300.0) (ImageSize 300.0 300.0) undefined
-        writeBS buff
+    handlePost = liftSnap $ handleFileUploads "/tmp/" defaultUploadPolicy (const (allowWithMaximumSize (1024*1024*10))) out
+    out :: [(PartInfo, Either PolicyViolationException FilePath)] -> Snap ()
+    out files = do
+        (_, Right f):_ <- return files
+        outPDF f
+    outPDF :: FilePath -> Snap ()
+    outPDF file = do
+        eimg <- liftIO $ loadImage file
+        case eimg of
+            Left x -> writeText $ T.pack x
+            Right img -> do
+                binary <- liftIO $ resize (DPI 300) (Paper 300.0 300.0) (ImageSize 300.0 300.0) img
+                writeBS binary
+        
 ------------------------------------------------------------------------------
 -- | The application's routes.
 routes :: [(ByteString, Handler App App ())]
