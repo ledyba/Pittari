@@ -11,9 +11,6 @@
 
 </head>
 <body>
-	<div id="spinner" class="spinner" style="display: none;">
-		<img src="/IdPhotoMaker/images/spinner.gif" alt="Spinner" />
-	</div>
 	<div id="main">
 		<div id="header">
 			<a class="title" href="/"><page-title /></a>

@@ -1,6 +1,7 @@
 module Image (
     resize,
     loadImage,
+    flipPaper,
     Paper(Paper),
     ImageSize(ImageSize)
 ) where
@@ -21,12 +22,14 @@ import Data.Bits
 data Paper = Paper !Float !Float
 data ImageSize = ImageSize !Float !Float
 
+flipPaper (Paper w h) = Paper h w
+
 ptrmap :: Storable a => Ptr a -> Int -> (a -> a) -> IO(Ptr a)
 ptrmap ptr size f = impl ptr size
     where
-        impl p left = 
-          if left == 0 
-            then (return ptr) 
+        impl p left =
+          if left == 0
+            then (return ptr)
             else do
               v <- peek p
               poke p (f v)

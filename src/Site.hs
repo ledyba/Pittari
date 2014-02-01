@@ -24,7 +24,8 @@ import           Snap.Util.FileUploads
 import           Snap.Iteratee
 import           Control.Monad.Trans
 import           System.IO.Temp
-import           Image ( loadImage, resize, Paper(Paper), ImageSize(ImageSize) )
+import qualified Data.ByteString.Char8 as C
+import           Image ( flipPaper, loadImage, resize, Paper(Paper), ImageSize(ImageSize) )
 ------------------------------------------------------------------------------
 import           Application
 
@@ -61,6 +62,29 @@ handleNewUser = method GET handleForm <|> method POST handleFormSubmit
     handleForm = render "new_user"
     handleFormSubmit = registerUser "login" "password" >> redirect "/"
 
+a1 = Paper 59.4 84.1
+a2 = Paper 42.0 59.4
+a3 = Paper 29.7 42.0
+a4 = Paper 21.0 29.7
+a5 = Paper 14.8 21.0
+a6 = Paper 10.5 14.8
+
+b1 = Paper 72.8 103.0
+b2 = Paper 51.5 72.8
+b3 = Paper 36.4 51.5
+b4 = Paper 25.7 36.4
+b5 = Paper 18.2 25.7
+b6 = Paper 12.8 18.2
+
+
+decodePaper p = case p of
+                    Nothing -> a4
+                    Just x -> case x of
+                                 "A1" -> a1
+                                 "A2" -> a2
+                                 "A3" -> a3
+                                 "A4" -> a4
+                                 _ -> a4
 
 handleUpload :: Handler App App ()
 handleUpload = method GET (redirect "/") <|> method POST handlePost
@@ -76,8 +100,20 @@ handleUpload = method GET (redirect "/") <|> method POST handlePost
         case eimg of
             Left x -> writeText $ T.pack x
             Right img -> do
-                binary <- liftIO $ resize (Paper 300.0 300.0) (ImageSize 100.0 100.0) img
+                imageWidth_ <- getParam "imageWidth"
+                imageHeight_ <- getParam "imageHeight"
+                imageWidth <- return $ case imageWidth_ of
+                                        Just x -> (read (C.unpack x)) :: Float
+                                        Nothing -> 10.0
+                imageHeight <- return $ case imageHeight_ of
+                                        Just x -> (read (C.unpack x)) :: Float
+                                        Nothing -> 10.0
+                paper <- getParam "paper"
+                paperSize <- return $ (decodePaper paper)
+                binary <- liftIO $ resize (if imageWidth > imageHeight then flipPaper paperSize else paperSize) (ImageSize imageWidth imageHeight) img
                 writeBS binary
+                where
+                  
         
 ------------------------------------------------------------------------------
 -- | The application's routes.
