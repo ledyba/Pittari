@@ -111,6 +111,8 @@ handleUpload = method GET (redirect "/") <|> method POST handlePost
                 paper <- getParam "paper"
                 paperSize <- return $ (decodePaper paper)
                 binary <- liftIO $ resize (if imageWidth > imageHeight then flipPaper paperSize else paperSize) (ImageSize imageWidth imageHeight) img
+                rq <- getResponse
+                putResponse $ setHeader "Content-Disposition" "attachment; filename=\"out.pdf\"" rq
                 writeBS binary
                 where
                   
