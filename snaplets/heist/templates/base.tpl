@@ -5,7 +5,7 @@
 <title><page-title /> - 画像をぴったりサイズで印刷しよう</title>
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<link rel="stylesheet" type="text/css" href="/screen.css" />
+<link rel="stylesheet" type="text/css" href="./screen.css" />
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <meta name="author" content="psi - http://ledyba.org/" />
 
