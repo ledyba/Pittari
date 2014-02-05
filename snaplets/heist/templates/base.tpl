@@ -13,7 +13,7 @@
 <body>
 	<div id="main">
 		<div id="header">
-			<a class="title" href="/"><page-title /></a>
+			<a class="title" href="./"><page-title /></a>
 		</div>
 		<div id="main-box">
 			<div id="content">
