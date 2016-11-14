@@ -1,0 +1,24 @@
+{{define "body"}}
+<h1>写真のアップロードエラー</h1>
+<div class="message">{{.Message}}</div>
+<h1>もう一度送信する</h1>
+<form action="./upload" method="post" enctype="multipart/form-data">
+  <div class="dialog">
+    <table class="form" summary="upload form">
+      <tbody>
+        <tr class="prop">
+          <td valign="top" class="name">
+            <label for="data">写真</label>
+          </td>
+          <td valign="top" class="value">
+            <input type="file" id="data" name="data" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="buttons">
+    <span class="button"><input type="submit" value="送信"></span>
+  </div>
+</form>
+{{end}}
