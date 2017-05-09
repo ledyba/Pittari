@@ -1,4 +1,4 @@
-.PHONY: all get run clean bind dbind deploy
+.PHONY: all get run clean bind dbind
 
 all:
 	gofmt -w .
