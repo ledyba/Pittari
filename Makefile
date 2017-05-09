@@ -23,7 +23,3 @@ run: all
 clean:
 	go clean github.com/ledyba/pittari/...
 
-deploy: bind
-	GOOS=linux GOARCH=amd64 go build -o pittari github.com/ledyba/pittari
-	ssh ledyba.org mkdir -p /opt/run/pittari
-	scp pittari pittari.conf ledyba:/opt/run/pittari
