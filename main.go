@@ -10,7 +10,7 @@ import (
 	"net/http"
 
 	"github.com/elazarl/go-bindata-assetfs"
-	"github.com/ledyba/IdPhotoMaker/photo"
+	"github.com/ledyba/Pittari/photo"
 )
 
 var port = flag.Int("port", 8080, "")

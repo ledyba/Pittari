@@ -108,14 +108,9 @@ div#main-box {
 }
 
 div#content {
-	width: 600px;
-	padding: 10px;
+	width: 100%;
+	padding: 1em;
 	float: right;
-}
-
-div#sidebar {
-	width: 170px;
-	padding: 5px;
 }
 
 div#footer {

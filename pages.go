@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ledyba/IdPhotoMaker/photo"
+	"github.com/ledyba/Pittari/photo"
 )
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
