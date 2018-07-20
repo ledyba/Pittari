@@ -90,6 +90,11 @@ div#main {
 	border: #000000 dotted 2px;
 }
 
+div#content {
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
 div#header {
 	background-color: #ffffff;
 	padding: 5px;
@@ -101,16 +106,6 @@ div#menubar {
 	padding: 5px;
 	font-size: small;
 	border-top: 2px dotted #000000;
-}
-
-div#main-box {
-	border-top: #000000 dotted 2px;
-}
-
-div#content {
-	width: 100%;
-	padding: 1em;
-	float: right;
 }
 
 div#footer {
