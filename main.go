@@ -13,7 +13,7 @@ import (
 	"github.com/ledyba/Pittari/photo"
 )
 
-var port = flag.Int("port", 8080, "")
+var listen = flag.String("listen", "localhost:8080", "")
 
 func assumeFile(name string) string {
 	bytes, _ := Asset(name)
@@ -39,6 +39,6 @@ func main() {
 			&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, AssetInfo: AssetInfo, Prefix: "static"})))
 	http.HandleFunc("/upload", uploadHandler)
 
-	log.Printf("Start at http://localhost:%d/", *port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
+	log.Printf("Start at http://%s/", *listen)
+	log.Fatal(http.ListenAndServe(*listen, nil))
 }
