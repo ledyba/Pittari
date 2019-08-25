@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/ledyba/Pittari/info"
 	"github.com/ledyba/Pittari/photo"
 )
 
@@ -16,10 +17,16 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	type Data struct {
-		Title string
+		Title   string
+		Year    int
+		BuildAt string
+		GitRev  string
 	}
 	dat := Data{
-		Title: "",
+		Title:   "",
+		Year:    time.Now().Year(),
+		BuildAt: info.BuildAt(),
+		GitRev:  info.DecodeGitRev(),
 	}
 	render("index", dat, w, r)
 }
@@ -29,41 +36,41 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	type Data struct {
 		Title   string
 		Message string
+		Year    int
+		BuildAt string
+		GitRev  string
+	}
+	dat := Data{
+		Year:    time.Now().Year(),
+		BuildAt: info.BuildAt(),
+		GitRev:  info.DecodeGitRev(),
 	}
 	err = r.ParseMultipartForm(32 * 1024 * 1024)
 	if err != nil {
-		dat := Data{
-			Title:   "写真のアップロードエラー",
-			Message: fmt.Sprintf("画像の読み込みエラー：%s", err.Error()),
-		}
+		dat.Title = "写真のアップロードエラー"
+		dat.Message = fmt.Sprintf("画像の読み込みエラー：%s", err.Error())
 		render("upload-error", dat, w, r)
 		return
 	}
 	fileMap := r.MultipartForm.File
 	files, found := fileMap["image"]
 	if !found || len(files) <= 0 {
-		dat := Data{
-			Title:   "写真のアップロードエラー",
-			Message: "画像がアップロードされていません",
-		}
+		dat.Title = "写真のアップロードエラー"
+		dat.Message = "画像がアップロードされていません"
 		render("upload-error", dat, w, r)
 		return
 	}
 	file, err := files[0].Open()
 	if err != nil {
-		dat := Data{
-			Title:   "画像のアップロードエラー",
-			Message: fmt.Sprintf("画像の読み込みエラー：%s", err.Error()),
-		}
+		dat.Title = "画像のアップロードエラー"
+		dat.Message = fmt.Sprintf("画像の読み込みエラー：%s", err.Error())
 		render("upload-error", dat, w, r)
 		return
 	}
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
-		dat := Data{
-			Title:   "画像のアップロードエラー",
-			Message: fmt.Sprintf("画像の読み込みエラー：%s", err.Error()),
-		}
+		dat.Title = "画像のアップロードエラー"
+		dat.Message = fmt.Sprintf("画像の読み込みエラー：%s", err.Error())
 		render("upload-error", dat, w, r)
 		return
 	}
