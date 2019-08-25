@@ -9,7 +9,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/elazarl/go-bindata-assetfs"
 	"github.com/ledyba/Pittari/photo"
 )
 
@@ -34,9 +33,7 @@ func main() {
 	flag.Parse() // Scan the arguments list
 	photo.InitCache()
 	http.HandleFunc("/", mainHandler)
-	http.Handle("/static/",
-		http.StripPrefix("/static/", http.FileServer(
-			&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, AssetInfo: AssetInfo, Prefix: "static"})))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(assetFS())))
 	http.HandleFunc("/upload", uploadHandler)
 
 	log.Printf("Start at http://%s/", *listen)

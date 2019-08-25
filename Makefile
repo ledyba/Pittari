@@ -1,25 +1,31 @@
-.PHONY: all get run clean bind
+.PHONY: all get run clean bind deploy
 
 PKG=github.com/ledyba/Pittari
 
-all:
-	gofmt -w .
-	go build -o Pittari $(PKG)
+all: deploy;
 
-get:
-	go get -u "github.com/jteeuwen/go-bindata/..."
-	go get -u "github.com/elazarl/go-bindata-assetfs/..."
-	go get -u "github.com/jung-kurt/gofpdf"
-	go get -u "github.com/nfnt/resize"
-	go get -u "github.com/oliamb/cutter"
+deploy:
+	mkdir -p .bin/
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o .bin/Pittari $(PKG)
+	scp .bin/Pittari 7io.org:/opt/www/7io/app/Pittari/Pittari.new
+	ssh 7io.org mv /opt/www/7io/app/Pittari/Pittari.new /opt/www/7io/app/Pittari/Pittari
+	ssh 7io.org supervisorctl reread
+	ssh 7io.org supervisorctl restart pittari
 
 bind:
-	PATH=$(GOPATH)/bin:$(PATH) $(GOPATH)/bin/go-bindata-assetfs -prefix=assets/ -pkg=main ./assets/...
+	# FIXME: https://github.com/golang/go/issues/27215#issuecomment-451342769
+	go get github.com/go-bindata/go-bindata
+	go get -u github.com/go-bindata/go-bindata/...
+	go get github.com/elazarl/go-bindata-assetfs
+	go get -u github.com/elazarl/go-bindata-assetfs/...
+	go mod tidy
+	$(GOPATH)/bin/go-bindata-assetfs -prefix=assets/ -pkg=main ./assets/...
 
-run: all
-	./Pittari
+run:
+	mkdir -p .bin/
+	go build -o .bin/Pittari $(PKG)
+	.bin/Pittari
 
 clean:
 	rm Pittari
 	go clean $(PKG)/...
-
