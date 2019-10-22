@@ -8,10 +8,10 @@
 package main
 
 import (
+	"github.com/elazarl/go-bindata-assetfs"
 	"bytes"
 	"compress/gzip"
 	"fmt"
-	"github.com/elazarl/go-bindata-assetfs"
 	"io"
 	"io/ioutil"
 	"os"
@@ -97,7 +97,7 @@ func staticCssMainCss() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/css/main.css", size: 2980, mode: os.FileMode(420), modTime: time.Unix(1566738104, 0)}
+	info := bindataFileInfo{name: "static/css/main.css", size: 2980, mode: os.FileMode(436), modTime: time.Unix(1571715434, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -117,7 +117,7 @@ func templatesCreateErrorHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/create-error.html", size: 99, mode: os.FileMode(420), modTime: time.Unix(1566738104, 0)}
+	info := bindataFileInfo{name: "templates/create-error.html", size: 99, mode: os.FileMode(436), modTime: time.Unix(1571715434, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -137,7 +137,7 @@ func templatesIndexHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/index.html", size: 2530, mode: os.FileMode(420), modTime: time.Unix(1566743763, 0)}
+	info := bindataFileInfo{name: "templates/index.html", size: 2530, mode: os.FileMode(436), modTime: time.Unix(1571715434, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -157,7 +157,7 @@ func templatesMainHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/main.html", size: 666, mode: os.FileMode(420), modTime: time.Unix(1566741803, 0)}
+	info := bindataFileInfo{name: "templates/main.html", size: 666, mode: os.FileMode(436), modTime: time.Unix(1571715434, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -177,7 +177,7 @@ func templatesUploadErrorHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/upload-error.html", size: 702, mode: os.FileMode(420), modTime: time.Unix(1566738104, 0)}
+	info := bindataFileInfo{name: "templates/upload-error.html", size: 702, mode: os.FileMode(436), modTime: time.Unix(1571715434, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

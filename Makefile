@@ -1,17 +1,8 @@
-.PHONY: all get run clean bind deploy format
+.PHONY: all clean bind build format
 
 PKG=github.com/ledyba/Pittari
 
-all: deploy;
-
-deploy:
-	mkdir -p .bin/
-	go generate $(PKG)/info
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o .bin/Pittari $(PKG)
-	scp .bin/Pittari 7io.org:/opt/www/7io/app/Pittari/Pittari.new
-	ssh 7io.org mv /opt/www/7io/app/Pittari/Pittari.new /opt/www/7io/app/Pittari/Pittari
-	ssh 7io.org supervisorctl reread
-	ssh 7io.org supervisorctl restart pittari
+all: build;
 
 bind:
 	# FIXME: https://github.com/golang/go/issues/27215#issuecomment-451342769
@@ -21,6 +12,11 @@ bind:
 	go get -u github.com/elazarl/go-bindata-assetfs/...
 	go mod tidy
 	$(GOPATH)/bin/go-bindata-assetfs -prefix=assets/ -pkg=main ./assets/...
+
+build: bind
+	mkdir -p .bin/
+	go generate $(PKG)/info
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o .bin/Pittari $(PKG)
 
 run:
 	mkdir -p .bin/
@@ -32,5 +28,5 @@ format:
 	go fmt ./...
 
 clean:
-	rm Pittari
+	rm .bin/Pittari
 	go clean $(PKG)/...
