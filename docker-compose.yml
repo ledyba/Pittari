@@ -1,0 +1,11 @@
+---
+version: '2.3'
+
+services:
+  pittari:
+    build: .
+    image: pittari
+    container_name: pittari_web
+    restart: always
+    ports:
+      - "127.0.0.1:8081:8080"
