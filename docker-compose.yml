@@ -1,11 +1,17 @@
 ---
-version: '2.3'
+version: '3.6'
 
 services:
-  pittari:
-    build: .
+  web:
     image: pittari
+    hostname: pittari_web
+    build:
+      context: ./
     container_name: pittari_web
     restart: always
-    ports:
-      - "127.0.0.1:8081:8080"
+    networks:
+      - planet-link
+networks:
+  planet-link:
+    external:
+      name: planet-link
