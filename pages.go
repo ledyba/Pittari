@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/ledyba/Pittari/info"
-	"github.com/ledyba/Pittari/photo"
 )
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
@@ -92,15 +91,4 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(buff)
-}
-
-func thumbHandler(w http.ResponseWriter, r *http.Request) {
-	secret := r.URL.Query().Get("id")
-	ph := photo.Fetch(secret)
-	if ph == nil {
-		w.WriteHeader(404)
-		return
-	}
-	w.Header().Set("Content-Type", "image/jpeg")
-	w.Write(ph.Thumb)
 }

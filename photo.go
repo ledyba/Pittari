@@ -1,4 +1,4 @@
-package photo
+package main
 
 import (
 	"bytes"
@@ -6,6 +6,7 @@ import (
 	"encoding/binary"
 	"image"
 	"image/jpeg"
+	"io"
 	"log"
 	"mime/multipart"
 	"os"
@@ -56,17 +57,23 @@ func NewPhoto(fileInfo *multipart.FileHeader) (*Photo, error) {
 	if err != nil {
 		return nil, err
 	}
-	file.Seek(0, os.SEEK_SET)
+	_, err = file.Seek(0, io.SeekStart)
+	if err != nil {
+		return nil, err
+	}
 	buff := make([]byte, filesize)
-	file.Read(buff)
+	_, err = file.Read(buff)
+	if err != nil {
+		return nil, err
+	}
 	before := time.Now()
-	image, fmt, err := image.Decode(bytes.NewReader(buff))
+	img, fmt, err := image.Decode(bytes.NewReader(buff))
 	log.Printf("Decoding %d bytes image took %d ms.", filesize, time.Now().Sub(before).Nanoseconds()/1000/1000)
 	if err != nil {
 		return nil, err
 	}
 	before = time.Now()
-	thumb, thumbBuff, err := resizeToThumbnail(image)
+	thumb, thumbBuff, err := resizeToThumbnail(img)
 	log.Printf("Decoding %d bytes image to thumb (%d bytes) took %d ms.", filesize, len(thumbBuff), time.Now().Sub(before).Nanoseconds()/1000/1000)
 	if err != nil {
 		return nil, err
@@ -77,8 +84,8 @@ func NewPhoto(fileInfo *multipart.FileHeader) (*Photo, error) {
 		Filename:    fileInfo.Filename,
 		Format:      fmt,
 		Data:        buff,
-		Width:       image.Bounds().Size().X,
-		Height:      image.Bounds().Size().Y,
+		Width:       img.Bounds().Size().X,
+		Height:      img.Bounds().Size().Y,
 		Thumb:       thumbBuff,
 		ThumbWidth:  thumb.Bounds().Size().X,
 		ThumbHeight: thumb.Bounds().Size().Y,

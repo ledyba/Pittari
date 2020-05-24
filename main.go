@@ -8,8 +8,6 @@ import (
 	_ "image/jpeg"
 	"log"
 	"net/http"
-
-	"github.com/ledyba/Pittari/photo"
 )
 
 var listen = flag.String("listen", "localhost:8080", "")
@@ -31,7 +29,6 @@ func render(templateName string, dat interface{}, w http.ResponseWriter, r *http
 
 func main() {
 	flag.Parse() // Scan the arguments list
-	photo.InitCache()
 	http.HandleFunc("/", mainHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(assetFS())))
 	http.HandleFunc("/upload", uploadHandler)
