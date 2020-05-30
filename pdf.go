@@ -8,6 +8,15 @@ import (
 	"github.com/jung-kurt/gofpdf"
 )
 
+var kCustomSizeMap map[string]gofpdf.SizeType = make(map[string]gofpdf.SizeType)
+
+func init() {
+	const mmToPt = 72.0 / 25.4;
+	kCustomSizeMap["L"]  = gofpdf.SizeType{Wd: 127 * mmToPt, Ht: 89 * mmToPt}
+	kCustomSizeMap["2L"] = gofpdf.SizeType{Wd: 178 * mmToPt, Ht: 127 * mmToPt}
+	kCustomSizeMap["KG"] = gofpdf.SizeType{Wd: 152 * mmToPt, Ht: 102 * mmToPt}
+}
+
 // CreateDoc ...
 func CreateDoc(docSizeName string, imageDataRaw []byte, width, height float64) ([]byte, error) {
 	var err error
@@ -15,7 +24,18 @@ func CreateDoc(docSizeName string, imageDataRaw []byte, width, height float64) (
 	if err != nil {
 		return nil, err
 	}
-	pdf := gofpdf.New("P", "mm", docSizeName, "")
+	var pdf gofpdf.Pdf = nil
+	if docSize, ok := kCustomSizeMap[docSizeName]; ok {
+		pdf = gofpdf.NewCustom(&gofpdf.InitType{
+			OrientationStr: "P",
+			UnitStr: "mm",
+			SizeStr: "",
+			Size: docSize,
+			FontDirStr: "",
+		})
+	} else {
+		pdf = gofpdf.New("P", "mm", docSizeName, "")
+	}
 	pdf.AddPage()
 	var imageData []byte
 	if !(imageType == "jpeg" || imageType == "png") {
