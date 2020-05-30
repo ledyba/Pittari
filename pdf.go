@@ -8,13 +8,12 @@ import (
 	"github.com/jung-kurt/gofpdf"
 )
 
-var kCustomSizeMap map[string]gofpdf.SizeType = make(map[string]gofpdf.SizeType)
+var kCustomSizeMap = make(map[string]gofpdf.SizeType)
 
 func init() {
-	const mmToPt = 72.0 / 25.4;
-	kCustomSizeMap["L"]  = gofpdf.SizeType{Wd: 127 * mmToPt, Ht: 89 * mmToPt}
-	kCustomSizeMap["2L"] = gofpdf.SizeType{Wd: 178 * mmToPt, Ht: 127 * mmToPt}
-	kCustomSizeMap["KG"] = gofpdf.SizeType{Wd: 152 * mmToPt, Ht: 102 * mmToPt}
+	kCustomSizeMap["L"]  = gofpdf.SizeType{Wd: 127, Ht: 89}
+	kCustomSizeMap["2L"] = gofpdf.SizeType{Wd: 178, Ht: 127}
+	kCustomSizeMap["KG"] = gofpdf.SizeType{Wd: 152, Ht: 102}
 }
 
 // CreateDoc ...
