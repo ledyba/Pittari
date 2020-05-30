@@ -1,10 +1,10 @@
-.PHONY: all clean bind build format
+.PHONY: all clean bind build format FORCE
 
 PKG=github.com/ledyba/Pittari
 
 all: build;
 
-bind:
+bind: FORCE
 	# FIXME: https://github.com/golang/go/issues/27215#issuecomment-451342769
 	go get github.com/go-bindata/go-bindata
 	go get -u github.com/go-bindata/go-bindata/...
@@ -13,7 +13,8 @@ bind:
 	go mod tidy
 	$(GOPATH)/bin/go-bindata-assetfs -prefix=assets/ -pkg=main ./assets/...
 
-build: bind
+build:
+	$(MAKE) bind
 	mkdir -p .bin/
 	go generate $(PKG)/info
 	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o .bin/Pittari $(PKG)
