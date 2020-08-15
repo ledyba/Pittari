@@ -1,13 +1,13 @@
 ---
-version: '3.6'
+version: '3.7'
 
 services:
   web:
+    container_name: pittari_web
     hostname: pittari_web
     image: pittari
     build:
       context: ./
-    container_name: pittari_web
     restart: always
     networks:
       - planet-link
