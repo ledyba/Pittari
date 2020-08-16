@@ -9,6 +9,8 @@ services:
     build:
       context: ./
     restart: always
+    expose:
+      - '8080'
     networks:
       - planet-link
     logging:
