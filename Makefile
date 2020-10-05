@@ -27,6 +27,7 @@ format:
 .PHONY: init
 init: FORCE
 	go mod download
+	go get -u github.com/gobuffalo/packr/v2/packr2
 
 .PHONY: clean
 clean: init

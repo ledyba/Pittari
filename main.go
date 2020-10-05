@@ -12,6 +12,8 @@ import (
 	"github.com/gobuffalo/packr/v2"
 )
 
+//go:generate packr2
+
 var listen = flag.String("listen", "localhost:8080", "")
 var templates = packr.New("staticBox", "./assets/templates")
 
