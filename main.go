@@ -15,7 +15,8 @@ import (
 //go:generate packr2
 
 var listen = flag.String("listen", "localhost:8080", "")
-var templates = packr.New("staticBox", "./assets/templates")
+var templates = packr.New("templateBox", "./assets/templates")
+var static = packr.New("staticBox", "./assets/static")
 
 func mustFile(name string) string {
 	bytes, _ := templates.FindString(name)
@@ -35,7 +36,7 @@ func render(templateName string, dat interface{}, w http.ResponseWriter, r *http
 func main() {
 	flag.Parse() // Scan the arguments list
 	http.HandleFunc("/", mainHandler)
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(packr.New("staticBox", "./assets/static"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(static)))
 	http.HandleFunc("/upload", uploadHandler)
 
 	log.Printf("Start at http://%s/", *listen)
