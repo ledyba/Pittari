@@ -20,7 +20,6 @@ jobs:
         run: |
           export GO111MODULE="on"
           make build
-
       - name: Upload result
         uses: actions/upload-artifact@v2
         with:
