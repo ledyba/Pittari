@@ -26,4 +26,3 @@ jobs:
         with:
           name: Pittari_windows_x86_64
           path: .bin/Pittari
-
