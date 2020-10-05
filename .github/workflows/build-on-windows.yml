@@ -18,7 +18,7 @@ jobs:
           go-version: '> 1.15.0'
       - name: Build
         run: |
-          export GO111MODULE="on"
+          $env:GO111MODULE="on"
           make build
       - name: Upload result
         uses: actions/upload-artifact@v2
