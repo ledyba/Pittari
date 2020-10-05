@@ -8,16 +8,16 @@ all: build;
 .PHONY: build
 build: init
 	mkdir -p .bin/
-	go generate $(PKG)
-	go generate $(PKG)/info
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o .bin/Pittari $(PKG)
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go generate $(PKG)
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go generate $(PKG)/info
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go build -o .bin/Pittari $(PKG)
 
 .PHONY: run
 run:
 	mkdir -p .bin/
-	go generate $(PKG)
-	go generate $(PKG)/info
-	go build -o .bin/Pittari $(PKG)
+	GO111MODULE=on go generate $(PKG)
+	GO111MODULE=on go generate $(PKG)/info
+	GO111MODULE=on go build -o .bin/Pittari $(PKG)
 	.bin/Pittari
 
 .PHONY: format
