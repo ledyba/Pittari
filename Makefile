@@ -34,3 +34,11 @@ clean: init
 	rm -Rf .bin
 	go mod tidy
 	go clean -x -i -r -testcache -modcache $(PKG)/...
+
+TAG="v$(shell date +%Y%m%d)"
+.PHONY: release
+release: FORCE
+	git tag -d $(TAG) 2> /dev/null || true
+	git tag $(TAG)
+	git push origin :$(TAG) 2> /dev/null || true
+	git push origin $(TAG)
