@@ -20,5 +20,4 @@ services:
         max-size: '250m'
 networks:
   planet-link:
-    external:
-      name: planet-link
+    external: true
