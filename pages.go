@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"runtime"
 	"strconv"
 	"time"
 
@@ -31,6 +32,7 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
+	defer runtime.GC()
 	var err error
 	type Data struct {
 		Title   string
