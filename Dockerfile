@@ -1,16 +1,18 @@
-FROM golang:1.18-alpine as build
+FROM golang:1.18-alpine as builder
+
+RUN apk add --no-cache git gcc g++ musl-dev bash make
 
 WORKDIR /go/src/github.com/ledyba/Pittari
 COPY . .
 
-RUN apk add git gcc g++ musl-dev bash make &&\
-    make clean &&\
-    make build &&\
-    mv .bin/Pittari .
+RUN go install github.com/gobuffalo/packr/v2/packr2@latest \
+ && make clean \
+ && make build \
+ && mv .bin/Pittari .
 
 FROM alpine:3.15
 
-COPY --from=build /go/src/github.com/ledyba/Pittari/Pittari Pittari
+COPY --from=builder /go/src/github.com/ledyba/Pittari/Pittari Pittari
 
 RUN ["chmod", "a+x", "/Pittari"]
 
