@@ -8,6 +8,7 @@ import (
 	_ "image/jpeg"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 
 	"github.com/gobuffalo/packr/v2"
 )
