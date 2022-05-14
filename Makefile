@@ -27,7 +27,7 @@ format:
 .PHONY: init
 init: FORCE
 	go mod download
-	go get -u github.com/gobuffalo/packr/v2/packr2
+	go install github.com/gobuffalo/packr/v2/packr2@latest
 
 .PHONY: clean
 clean: init
@@ -42,3 +42,11 @@ release: FORCE
 	git tag $(TAG)
 	git push origin :$(TAG) 2> /dev/null || true
 	git push origin $(TAG)
+
+##
+##
+##
+
+.PHONY: prof-mem
+prof-mem: build
+	go tool pprof -http=":8000" .bin/Pittari https://app.7io.org/Pittari/debug/pprof/allocs

@@ -1,2 +1,4 @@
 .bin/
 info/info.gen.go
+/packrd/
+/main-packr.go
