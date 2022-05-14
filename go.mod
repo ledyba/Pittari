@@ -14,7 +14,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
 	github.com/jonboulle/clockwork v0.1.0 // indirect
-	github.com/jung-kurt/gofpdf v1.10.0
+	github.com/jung-kurt/gofpdf v1.16.2
 	github.com/karrick/godirwalk v1.17.0 // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
