@@ -10,7 +10,7 @@ RUN go install github.com/gobuffalo/packr/v2/packr2@latest \
  && make build \
  && mv .bin/Pittari .
 
-FROM alpine:3.15
+FROM alpine:3.16
 
 COPY --from=builder /go/src/github.com/ledyba/Pittari/Pittari Pittari
 
