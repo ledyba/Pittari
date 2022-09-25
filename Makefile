@@ -50,3 +50,4 @@ release: FORCE
 .PHONY: prof-mem
 prof-mem: build
 	go tool pprof -http="ledyba.org:8000" .bin/Pittari https://app.7io.org/Pittari/debug/pprof/allocs
+
