@@ -33,7 +33,8 @@ init: FORCE
 clean: init
 	rm -Rf .bin
 	go mod tidy
-	go clean -x -i -r -testcache -modcache $(PKG)/...
+	go clean -testcache -modcache
+	go clean -x -i -r $(PKG)/...
 
 TAG="v$(shell date +%Y%m%d)"
 .PHONY: release
