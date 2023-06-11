@@ -1,4 +1,4 @@
-FROM golang:1.19-alpine as builder
+FROM golang:1.20-alpine as builder
 
 RUN apk add --no-cache git gcc g++ musl-dev bash make
 
@@ -10,7 +10,7 @@ RUN go install github.com/gobuffalo/packr/v2/packr2@latest \
  && make build \
  && mv .bin/Pittari .
 
-FROM alpine:3.16
+FROM alpine:3.18
 
 COPY --from=builder /go/src/github.com/ledyba/Pittari/Pittari Pittari
 
