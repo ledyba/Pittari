@@ -5,11 +5,14 @@ PKG=github.com/ledyba/Pittari
 .PHONY: all
 all: build;
 
-.PHONY: build
-build: init
-	mkdir -p .bin/
+.PHONY: gen
+gen:
 	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go generate $(PKG)
 	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go generate $(PKG)/info
+
+.PHONY: build
+build: init gen
+	mkdir -p .bin/
 	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go build -o .bin/Pittari $(PKG)
 
 .PHONY: run
