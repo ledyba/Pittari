@@ -12,8 +12,17 @@
 	"customizations": {
 		// Configure properties specific to VS Code.
 		"vscode": {
-			"settings": {},
-			"extensions": []
+			"settings": {
+				"editor.fontSize": 16,
+				"terminal.integrated.profiles.linux": {
+					"shell": {
+						"path": "zsh",
+						"args": ["-l"]
+					}
+				}
+			},
+			"extensions": [
+			]
 		}
 	},
 
