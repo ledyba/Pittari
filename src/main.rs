@@ -37,13 +37,14 @@ fn main() -> anyhow::Result<()> {
     .build()?;
   rt.block_on(async {
     use axum::{
-      routing::get,
+      extract::DefaultBodyLimit,
+      routing::{get, post},
       Router,
     };
 
     let app = Router::new()
       .route("/", get(web::index))
-      .route("/upload", get(web::upload))
+      .route("/upload", post(web::upload).layer(DefaultBodyLimit::max(1024 * 1024 * 32)))
       .route("/main.css", get(web::main_css));
 
     #[cfg(not(windows))]

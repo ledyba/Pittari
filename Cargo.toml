@@ -9,7 +9,7 @@ tokio = { version = "1.41.1", features = ["full"] }
 tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.18", features = [ "std", "env-filter" ] }
 clap = "4.5.20"
-axum = "0.7.7"
+axum = { version = "0.7.7", features = ["multipart"] }
 handlebars = "6.2.0"
 #serde = "1.0.214"
 serde_json = "1.0.132"
