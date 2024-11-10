@@ -1,0 +1,21 @@
+---
+services:
+  web:
+    container_name: pittari_web
+    hostname: pittari_web
+    image: pittari
+    build:
+      context: ./
+    restart: always
+    expose:
+      - '3000'
+    networks:
+      - planet-link
+    logging:
+      driver: "json-file"
+      options:
+        max-file: '4'
+        max-size: '250m'
+networks:
+  planet-link:
+    external: true

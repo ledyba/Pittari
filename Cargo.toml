@@ -1,0 +1,21 @@
+[package]
+name = "pittari"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.93"
+tokio = { version = "1.41.1", features = ["full"] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = [ "std", "env-filter" ] }
+clap = "4.5.20"
+axum = "0.7.7"
+handlebars = "6.2.0"
+#serde = "1.0.214"
+serde_json = "1.0.132"
+chrono = "0.4.38"
+base64 = "0.22.1"
+
+[build-dependencies]
+chrono = "0.4.38"
+base64 = "0.22.1"

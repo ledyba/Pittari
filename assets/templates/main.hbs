@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  {{#if title }}
+  <title>{{ title }} - ぴったり印刷くん</title>
+  {{else}}
+  <title>ぴったり印刷くん</title>
+  {{/if}}
+  <link rel="stylesheet" href="./main.css?{{ build_at }}" />
+</head>
+<body>
+  <div id="main">
+    <div id="content">
+      <h1><a class="title" href="./">ぴったり印刷くん</a></h1>
+      {{> page}}
+      <hr>
+      <h2>Info</h2>
+      <h3>git rev</h3>
+      <pre>{{ git_rev }}</pre>
+      <h3>build at</h3>
+      <pre>{{ build_at }}</pre>
+    </div>
+  <div id="footer">(C)2014-{{ year }} <a href="https://7io.org/">Kaede Fujisaki</a></div>
+  </div>
+</body>
+</html>
