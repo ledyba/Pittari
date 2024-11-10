@@ -14,8 +14,6 @@ fn app() -> clap::Command {
       .action(ArgAction::Count)
       .value_parser(value_parser!(u8))
       .help("Show verbose message"))
-    .subcommand(clap::Command::new("run")
-      .about("Run web"))
 }
 
 fn main() -> anyhow::Result<()> {
