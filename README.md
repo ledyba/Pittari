@@ -12,6 +12,11 @@
 - [昔はGo言語で書いてました](https://code.ledyba.org/ledyba/Pittari/src/branch/v2)。
 - [さらに昔はHaskellで書いてました](https://code.ledyba.org/ledyba/Pittari/src/branch/v1)。
 
+# Reference
+
+- [PDFファイルの内部構造を見るためのツール｜G3](https://note.com/tasty_hosta723/n/nf4879665b36d)
+  - [PDF開発用ツール - PDFDesigner](https://www.petitmonte.com/pdfdesigner/developer-tool.html)
+
 # License
 
 AGPL v3 or later.
