@@ -5,6 +5,7 @@ use axum::response::{IntoResponse, Response};
 use base64::Engine;
 use chrono::Datelike;
 use handlebars::Handlebars;
+use crate::pdf;
 
 fn build_resp(status: StatusCode, content: &str, content_type: &str) -> Response<Body> {
   Response::builder()
@@ -90,21 +91,15 @@ pub async fn main_css(
 }
 
 #[derive(Default)]
-struct UploadDataPartial {
+struct UploadData {
   image: Option<Bytes>,
   width: Option<f64>,
   height: Option<f64>,
   paper: Option<String>,
 }
-struct UploadData {
-  image: Bytes,
-  width: f64,
-  height: f64,
-  paper: String,
-}
 
-impl UploadDataPartial {
-  fn check_validity(self) -> anyhow::Result<UploadData> {
+impl UploadData {
+  fn check_validity(self) -> anyhow::Result<pdf::PageData> {
     if self.image.is_none() || self.image.as_ref().unwrap().is_empty() {
       return Err(anyhow::Error::msg("画像がありません。"));
     }
@@ -117,19 +112,19 @@ impl UploadDataPartial {
     if self.paper.is_none() || self.paper.as_ref().unwrap().is_empty() {
       return Err(anyhow::Error::msg("紙を選択してください。"));
     }
-    Ok(UploadData {
-      image: self.image.unwrap(),
-      width: self.width.unwrap(),
-      height: self.height.unwrap(),
-      paper: self.paper.unwrap(),
-    })
+    Ok(pdf::PageData::new(
+      self.image.unwrap(),
+      self.width.unwrap(),
+      self.height.unwrap(),
+      self.paper.unwrap(),
+    ))
   }
 }
 
 async fn extract_upload_multipart(
   mut data: axum::extract::Multipart,
-) -> anyhow::Result<UploadData> {
-  let mut r = UploadDataPartial::default();
+) -> anyhow::Result<pdf::PageData> {
+  let mut r = UploadData::default();
   while let Some(field) = data.next_field().await? {
     let Some(name) = field.name() else {
       return Err(anyhow::Error::msg("Empty field name"));
