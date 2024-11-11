@@ -178,7 +178,7 @@ fn render_create_error(err: anyhow::Error) -> Response<Body> {
 }
 
 pub async fn upload(
-  mut data: axum::extract::Multipart,
+  data: axum::extract::Multipart,
 ) -> Response<Body>
 {
   let data = {
@@ -187,5 +187,9 @@ pub async fn upload(
       Err(err) => return render_upload_error(err),
     }
   };
-  build_pdf(Vec::new())
+  let pdf_data = match data.create_pdf() {
+    Ok(data) => data,
+    Err(err) => return render_create_error(err),
+  };
+  build_pdf(pdf_data)
 }
