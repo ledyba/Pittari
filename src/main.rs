@@ -27,6 +27,7 @@ fn main() -> anyhow::Result<()> {
     _ => tracing::Level::TRACE,
   };
   tracing_subscriber::fmt()
+    .with_timer(tracing_subscriber::fmt::time::ChronoLocal::new("%Y/%m/%d %H:%M:%S%.3f".to_string()))
     .with_max_level(log_level)
     .with_line_number(true)
     .with_file(true)
@@ -37,6 +38,7 @@ fn main() -> anyhow::Result<()> {
     .enable_all()
     .build()?;
   rt.block_on(async {
+    use tracing::info;
     use axum::{
       extract::DefaultBodyLimit,
       routing::{get, post},
@@ -59,6 +61,7 @@ fn main() -> anyhow::Result<()> {
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.expect("[BUG] Failed to parse addr");
     let server = axum::serve(listener, app);
 
+    info!("Listening on http://localhost:3000/");
     server.await?;
     Ok(())
   })

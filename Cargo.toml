@@ -7,7 +7,7 @@ edition = "2021"
 anyhow = "1.0.93"
 tokio = { version = "1.41.1", features = ["full"] }
 tracing = "0.1.40"
-tracing-subscriber = { version = "0.3.18", features = [ "std", "env-filter" ] }
+tracing-subscriber = { version = "0.3.18", features = [ "std", "env-filter", "chrono" ] }
 clap = "4.5.20"
 axum = { version = "0.7.7", features = ["multipart"] }
 handlebars = "6.2.0"
