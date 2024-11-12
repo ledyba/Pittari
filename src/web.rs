@@ -5,6 +5,7 @@ use axum::response::{IntoResponse, Response};
 use base64::Engine;
 use chrono::Datelike;
 use handlebars::Handlebars;
+use tracing::info;
 use crate::pdf;
 
 fn build_resp(status: StatusCode, content: &str, content_type: &str) -> Response<Body> {
@@ -191,5 +192,6 @@ pub async fn upload(
     Ok(data) => data,
     Err(err) => return render_create_error(err),
   };
+  info!("{} bytes baked.", pdf_data.len());
   build_pdf(pdf_data)
 }
