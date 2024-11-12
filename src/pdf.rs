@@ -31,11 +31,24 @@ impl PageData {
     use lopdf::dictionary;
     use lopdf::{Document, Object, Stream};
     use lopdf::content::{Content, Operation};
+    use image::ColorType;
     let mut doc = Document::with_version("1.3");
 
     let pages_id = doc.new_object_id(); // Fill the content later.
 
-    let image_id = doc.add_object(Stream::new(dictionary! {}, vec![]));
+    let image_id = {
+      let data = self.image.to_vec();
+      let img = image::load_from_memory(&data)?;
+      doc.add_object(Stream::new(dictionary! {
+        "Type" => "XObject",
+        "Subtype" => "Image",
+        "Width" => img.width(),
+        "Height" => img.height(),
+        "ColorSpace" => "DeviceRGB",
+        "BitsPerComponent" => img.color().bits_per_pixel() / img.color().channel_count() as u16,
+        "Filter" => 
+      }, data))
+    };
 
     let resources_id = doc.add_object(dictionary! {
       "ProcSet" => vec![Object::from("PDF"), Object::from("Text"), Object::from("ImageB"), Object::from("ImageC"), Object::from("ImageI")],
@@ -48,6 +61,7 @@ impl PageData {
 
     let content = Content {
       operations: vec![
+        Operation::new("Do", vec![Object::from(image_id)]),
       ],
     };
     let content_id = doc.add_object(Stream::new(dictionary! {}, content.encode()?));

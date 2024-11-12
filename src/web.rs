@@ -1,7 +1,6 @@
-use std::io::Read;
 use axum::body::{Body, Bytes};
 use axum::http::StatusCode;
-use axum::response::{IntoResponse, Response};
+use axum::response::Response;
 use base64::Engine;
 use chrono::Datelike;
 use handlebars::Handlebars;
