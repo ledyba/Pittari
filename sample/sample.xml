@@ -1,0 +1,136 @@
+<pdf><object id="1">
+<dict size="4">
+<key>Type</key>
+<value><literal>Pages</literal></value>
+<key>Kids</key>
+<value><list size="1">
+<ref id="3" />
+</list></value>
+<key>Count</key>
+<value><number>1</number></value>
+<key>MediaBox</key>
+<value><list size="4">
+<number>0</number>
+<number>0</number>
+<number>595.28</number>
+<number>841.89</number>
+</list></value>
+</dict>
+</object>
+
+<object id="2">
+<dict size="4">
+<key>ProcSet</key>
+<value><list size="5">
+<literal>PDF</literal>
+<literal>Text</literal>
+<literal>ImageB</literal>
+<literal>ImageC</literal>
+<literal>ImageI</literal>
+</list></value>
+<key>Font</key>
+<value><dict size="0">
+</dict></value>
+<key>XObject</key>
+<value><dict size="1">
+<key>Ia71e80d11d6038ce6718ba93ba2be5931223fc2d</key>
+<value><ref id="5" /></value>
+</dict></value>
+<key>ColorSpace</key>
+<value><dict size="0">
+</dict></value>
+</dict>
+</object>
+
+<object id="3">
+<dict size="4">
+<key>Type</key>
+<value><literal>Page</literal></value>
+<key>Parent</key>
+<value><ref id="1" /></value>
+<key>Resources</key>
+<value><ref id="2" /></value>
+<key>Contents</key>
+<value><ref id="4" /></value>
+</dict>
+</object>
+
+<object id="4">
+<stream>
+<props>
+<dict size="2">
+<key>Filter</key>
+<value><literal>FlateDecode</literal></value>
+<key>Length</key>
+<value><number>114</number></value>
+</dict>
+</props>
+</stream>
+</object>
+
+<object id="5">
+<stream>
+<props>
+<dict size="8">
+<key>Type</key>
+<value><literal>XObject</literal></value>
+<key>Subtype</key>
+<value><literal>Image</literal></value>
+<key>Width</key>
+<value><number>2048</number></value>
+<key>Height</key>
+<value><number>1448</number></value>
+<key>ColorSpace</key>
+<value><literal>DeviceRGB</literal></value>
+<key>BitsPerComponent</key>
+<value><number>8</number></value>
+<key>Filter</key>
+<value><literal>DCTDecode</literal></value>
+<key>Length</key>
+<value><number>485240</number></value>
+</dict>
+</props>
+</stream>
+</object>
+
+<object id="6">
+<dict size="3">
+<key>Producer</key>
+<value><string size="18">&#254;&#255;&#0;F&#0;P&#0;D&#0;F&#0; &#0;1&#0;.&#0;7</string></value>
+<key>CreationDate</key>
+<value><string size="16">D:20241112020610</string></value>
+<key>ModDate</key>
+<value><string size="16">D:20241112020610</string></value>
+</dict>
+</object>
+
+<object id="7">
+<dict size="3">
+<key>Type</key>
+<value><literal>Catalog</literal></value>
+<key>Pages</key>
+<value><ref id="1" /></value>
+<key>Names</key>
+<value><dict size="1">
+<key>EmbeddedFiles</key>
+<value><dict size="1">
+<key>Names</key>
+<value><list size="0">
+</list></value>
+</dict></value>
+</dict></value>
+</dict>
+</object>
+
+<trailer>
+<dict size="3">
+<key>Size</key>
+<value><number>8</number></value>
+<key>Root</key>
+<value><ref id="7" /></value>
+<key>Info</key>
+<value><ref id="6" /></value>
+</dict>
+</trailer>
+
+</pdf>
