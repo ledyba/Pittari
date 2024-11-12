@@ -19,7 +19,7 @@ fn build_resp(status: StatusCode, content: &str, content_type: &str) -> Response
 fn build_pdf(content: Vec<u8>) -> Response<Body> {
   Response::builder()
     .status(StatusCode::OK)
-    .header("content-disposition", "inline")
+    .header("content-disposition", "inline; filename=\"pittari.pdf\"")
     .header("content-type", "application/pdf")
     .body(Body::from(content))
     .expect("Failed to build response")

@@ -13,6 +13,7 @@
 
 - [PDFファイルの内部構造を見るためのツール｜G3](https://note.com/tasty_hosta723/n/nf4879665b36d)
   - [PDF開発用ツール - PDFDesigner](https://www.petitmonte.com/pdfdesigner/developer-tool.html)
+  - [pdfminer.six’s documentation](https://pdfminersix.readthedocs.io/en/latest/)
 - [lopdf - Rust](https://docs.rs/lopdf/0.34.0/lopdf/)
   - [PDF 1.7 Reference Document](https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf)
   - [PDF 2.0 Reference Document](https://pdfa.org/announcing-no-cost-access-to-iso-32000-2-pdf-2-0/)
