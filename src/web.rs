@@ -96,7 +96,9 @@ struct UploadData {
   image: Option<Bytes>,
   width: Option<f64>,
   height: Option<f64>,
-  paper: Option<String>,
+  page_width: Option<f64>,
+  page_height: Option<f64>,
+
 }
 
 impl UploadData {
@@ -110,14 +112,15 @@ impl UploadData {
     if self.height.is_none() {
       return Err(anyhow::Error::msg("縦幅が空です。"));
     }
-    if self.paper.is_none() || self.paper.as_ref().unwrap().is_empty() {
+    if self.page_width.is_none() || self.page_height.is_none() {
       return Err(anyhow::Error::msg("紙を選択してください。"));
     }
     Ok(pdf::PageData::new(
       self.image.unwrap(),
       self.width.unwrap(),
       self.height.unwrap(),
-      self.paper.unwrap(),
+      self.page_width.unwrap(),
+      self.page_height.unwrap(),
     ))
   }
 }
@@ -149,13 +152,39 @@ async fn extract_upload_multipart(
       "paper" => {
         let text = field.text().await?;
         if !text.is_empty() {
-          r.paper = Some(text)
+          if let Some((w, h)) = paper_size_of(&text) {
+            r.page_width = Some(w);
+            r.page_height = Some(h);
+          }
         }
       },
       _ => return Err(anyhow::Error::msg("Invalid field name")),
     }
   }
   r.check_validity()
+}
+
+fn paper_size_of(paper_name: &str) -> Option<(f64, f64)> {
+  match paper_name {
+    // https://ja.wikipedia.org/wiki/%E7%B4%99%E3%81%AE%E5%AF%B8%E6%B3%95
+    "A1" => Some((594.0, 841.0)),
+    "A2" => Some((420.0, 594.0)),
+    "A3" => Some((297.0, 420.0)),
+    "A4" => Some((210.0, 297.0)),
+    "A5" => Some((148.0, 210.0)),
+    "A6" => Some((105.0, 148.0)),
+    "B1" => Some((707.0, 1000.0)),
+    "B2" => Some((500.0, 707.0)),
+    "B3" => Some((353.0, 500.0)),
+    "B4" => Some((250.0, 353.0)),
+    "B5" => Some((176.0, 250.0)),
+    "B6" => Some((125.0, 176.0)),
+    // https://ja.wikipedia.org/wiki/%E5%8D%B0%E7%94%BB%E7%B4%99#%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%AB%E3%82%88%E3%82%8B%E3%82%82%E3%81%AE
+    "L"  => Some((89.0, 127.0)),
+    "2L" => Some((127.0, 178.0)),
+    "KG" => Some((102.0, 152.0)),
+    _ => None,
+  }
 }
 
 fn render_upload_error(err: anyhow::Error) -> Response<Body> {

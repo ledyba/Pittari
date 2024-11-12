@@ -4,19 +4,29 @@ pub struct PageData {
   image: Bytes,
   width: f64,
   height: f64,
-  paper: String,
+  page_width: f64,
+  page_height: f64,
 }
 
 impl PageData {
-  pub fn new(image: Bytes, width: f64, height: f64, paper: String) -> PageData {
+  pub fn new(
+    image: Bytes,
+    width: f64,
+    height: f64,
+    page_width: f64,
+    page_height: f64,
+  ) -> PageData {
     Self {
       image,
       width,
       height,
-      paper,
+      page_width,
+      page_height,
     }
   }
-  
+
+  // https://www.petitmonte.com/pdfdesigner/developer-tool.html
+
   pub fn create_pdf(&self) -> anyhow::Result<Vec<u8>> {
     use lopdf::dictionary;
     use lopdf::{Document, Object, Stream};
@@ -33,7 +43,7 @@ impl PageData {
       "XObject" => dictionary! {
         "ImageObject" => image_id,
       },
-      "ColorSpace" => vec![],
+      "ColorSpace" => dictionary! {},
     });
 
     let content = Content {
@@ -53,7 +63,10 @@ impl PageData {
       "Type" => "Pages",
       "Kids" => vec![Object::from(page_id)],
       "Count" => 1,
-      "MediaBox" => vec![Object::from(0), Object::from(0), 595.into(), 842.into()],
+      "MediaBox" => vec![
+        Object::from(0), Object::from(0),
+        Object::from(mm_to_pt(self.page_width)), Object::from(mm_to_pt(self.page_height))
+      ],
     };
     doc.objects.insert(pages_id, Object::Dictionary(pages));
 
@@ -62,10 +75,15 @@ impl PageData {
       "Pages" => pages_id,
     });
     doc.trailer.set("Root", catalog_id);
+    doc.compress();
 
     let mut data = Vec::<u8>::new();
     doc.save_to(&mut data)?;
-    // std::fs::write("page.pdf", &data)?;
+    std::fs::write("page.pdf", &data)?;
     Ok(data)
   }
+}
+
+fn mm_to_pt(mm: f64) -> f64 {
+  mm * 72.0 / 25.4
 }
