@@ -1,3 +1,5 @@
+use flate2::Compression;
+use flate2::write::ZlibEncoder;
 use image::ImageFormat;
 
 pub fn build_pdf(
@@ -15,8 +17,10 @@ pub fn build_pdf(
 
   let mut doc = Document::with_version("1.3");
 
+  // (1 0)
   let pages_id = doc.new_object_id(); // Fill the content later.
 
+  // (2 0)
   let image_id = {
     doc.add_object(Stream::new(dictionary! {
         "Type" => "XObject",
@@ -29,6 +33,7 @@ pub fn build_pdf(
       }, image_data))
   };
 
+  // (3 0)
   let resources_id = doc.add_object(dictionary! {
       "ProcSet" => vec![Object::from("PDF"), Object::from("Text"), Object::from("ImageB"), Object::from("ImageC"), Object::from("ImageI")],
       "Font" => vec![],
@@ -40,11 +45,41 @@ pub fn build_pdf(
 
   let content = Content {
     operations: vec![
-      Operation::new("Do", vec![Object::from(image_id)]),
+      Operation::new("J", vec![Object::from(0)]),
+      Operation::new("j", vec![Object::from(0)]),
+      Operation::new("w", vec![Object::from(0.57)]),
+      Operation::new("G", vec![Object::from(0)]),
+      Operation::new("g", vec![Object::from(0)]),
+      Operation::new("q", vec![]),
+      Operation::new("cm", vec![
+        Object::from(419.52756),
+        Object::from(0),
+        Object::from(0),
+        Object::from(297.6378),
+        Object::from(87.87622),
+        Object::from(272.1261),
+      ]),
+      Operation::new("Do", vec![Object::from("ImageObject")]),
+      Operation::new("Q", vec![]),
     ],
   };
-  let content_id = doc.add_object(Stream::new(dictionary! {}, content.encode()?));
+  // (4 0)
+  let content_id = {
+    let content = {
+      use std::io::Write;
+      let content = content.encode()?;
+      let mut enc = ZlibEncoder::new(Vec::new(), Compression::best());
+      enc.write_all(&content)?;
+      enc.finish()?
+    };
 
+    doc.add_object(Stream::new(dictionary! {
+      "Filter" => "FlateDecode",
+      "Length" => content.len() as i64,
+    }, content))
+  };
+
+  // (5 0)
   let page_id = doc.add_object(dictionary! {
       "Type" => "Page",
       "Parent" => pages_id,
@@ -52,6 +87,7 @@ pub fn build_pdf(
       "Contents" => content_id,
     });
 
+  // (6 0)
   let pages = dictionary! {
       "Type" => "Pages",
       "Kids" => vec![Object::from(page_id)],
@@ -63,9 +99,15 @@ pub fn build_pdf(
     };
   doc.objects.insert(pages_id, Object::Dictionary(pages));
 
+  // (7 0)
   let catalog_id = doc.add_object(dictionary! {
       "Type" => "Catalog",
       "Pages" => pages_id,
+      "Names" => dictionary! {
+        "EmbeddedFiles" => dictionary! {
+          "Names" => vec![],
+        },
+      },
     });
   doc.trailer.set("Root", catalog_id);
   Ok(doc)

@@ -17,6 +17,7 @@ chrono = "0.4.38"
 base64 = "0.22.1"
 lopdf = "0.34.0"
 image = "0.25.5"
+flate2 = "1.0.34"
 
 [build-dependencies]
 chrono = "0.4.38"
