@@ -9,11 +9,14 @@ pub fn build_pdf(
   use lopdf::content::{Content, Operation};
   use super::mm_to_pt;
 
+  let img = image::load_from_memory_with_format(&image_data, ImageFormat::Jpeg)?;
+
+  // Constructing a doc.
+
   let mut doc = Document::with_version("1.3");
 
   let pages_id = doc.new_object_id(); // Fill the content later.
 
-  let img = image::load_from_memory_with_format(&image_data, ImageFormat::Jpeg)?;
   let image_id = {
     doc.add_object(Stream::new(dictionary! {
         "Type" => "XObject",
