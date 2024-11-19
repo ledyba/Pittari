@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine as builder
+FROM golang:1.23-alpine AS builder
 
 RUN apk add --no-cache git gcc g++ musl-dev bash make
 
@@ -17,3 +17,4 @@ COPY --from=builder /go/src/github.com/ledyba/Pittari/Pittari Pittari
 
 EXPOSE 8080
 CMD ["/Pittari", "-listen", ":8080"]
+
