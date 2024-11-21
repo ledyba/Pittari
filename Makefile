@@ -7,20 +7,19 @@ all: build;
 
 .PHONY: gen
 gen:
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go generate $(PKG)
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go generate $(PKG)/info
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go generate $(PKG)
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go generate $(PKG)/info
 
 .PHONY: build
 build: init gen
 	mkdir -p .bin/
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO111MODULE=on go build -o .bin/Pittari $(PKG)
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o .bin/Pittari $(PKG)
 
 .PHONY: run
 run:
 	mkdir -p .bin/
-	GO111MODULE=on go generate $(PKG)
-	GO111MODULE=on go generate $(PKG)/info
-	GO111MODULE=on go build -o .bin/Pittari $(PKG)
+	go generate $(PKG)/info
+	go build -o .bin/Pittari $(PKG)
 	.bin/Pittari
 
 .PHONY: format
@@ -30,7 +29,6 @@ format:
 .PHONY: init
 init: FORCE
 	go mod download
-	go install github.com/gobuffalo/packr/v2/packr2@latest
 
 .PHONY: clean
 clean: init
@@ -48,10 +46,14 @@ release: FORCE
 	git push origin $(TAG)
 
 ##
-##
+## pprof
+## See: https://pkg.go.dev/net/http/pprof
 ##
 
-.PHONY: prof-mem
-prof-mem: build
+.PHONY: prof-mem-alloc
+prof-mem-alloc: build
 	go tool pprof -http="ledyba.org:8000" .bin/Pittari https://app.7io.org/Pittari/debug/pprof/allocs
 
+.PHONY: prof-mem-heap
+prof-mem-heap: build
+	go tool pprof -http="ledyba.org:8000" .bin/Pittari https://app.7io.org/Pittari/debug/pprof/heap
