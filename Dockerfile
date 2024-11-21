@@ -15,6 +15,5 @@ FROM gcr.io/distroless/static-debian12:latest
 
 COPY --from=builder /go/src/github.com/ledyba/Pittari/Pittari Pittari
 
-EXPOSE 8080
-CMD ["/Pittari", "-listen", ":8080"]
-
+EXPOSE 3000
+CMD ["/Pittari", "-listen", ":3000"]

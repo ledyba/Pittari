@@ -14,7 +14,7 @@ import (
 	_ "net/http/pprof"
 )
 
-var listen = flag.String("listen", "localhost:8080", "")
+var listen = flag.String("listen", "localhost:3000", "")
 
 //go:embed assets/templates/*
 var templatesFS embed.FS
