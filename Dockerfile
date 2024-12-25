@@ -5,8 +5,7 @@ RUN apk add --no-cache git gcc g++ musl-dev bash make
 WORKDIR /go/src/github.com/ledyba/Pittari
 COPY . .
 
-RUN go install github.com/gobuffalo/packr/v2/packr2@latest \
- && make clean \
+RUN make clean \
  && make build \
  && mv .bin/Pittari . \
  && chmod a+x ./Pittari
