@@ -4,21 +4,22 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.93"
-tokio = { version = "1.41.1", features = ["full"] }
-tracing = "0.1.40"
-tracing-subscriber = { version = "0.3.18", features = [ "std", "env-filter", "chrono" ] }
-clap = "4.5.20"
-axum = { version = "0.7.7", features = ["multipart"] }
-handlebars = "6.2.0"
+anyhow = "1.0.97"
+tokio = { version = "1.44.2", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = [ "std", "env-filter", "chrono" ] }
+clap = "4.5.35"
+axum = { version = "0.8.3", features = ["multipart"] }
+ctrlc = "3.4.6"
+handlebars = "6.3.2"
 #serde = "1.0.214"
-serde_json = "1.0.132"
-chrono = "0.4.38"
+serde_json = "1.0.140"
+chrono = "0.4.40"
 base64 = "0.22.1"
-lopdf = "0.34.0"
-image = "0.25.5"
-flate2 = "1.0.34"
+lopdf = "0.36.0"
+image = "0.25.6"
+flate2 = "1.1.1"
 
 [build-dependencies]
-chrono = "0.4.38"
+chrono = "0.4.40"
 base64 = "0.22.1"
