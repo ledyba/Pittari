@@ -5,10 +5,10 @@ use axum::body::Bytes;
 
 pub struct PageData {
   image: Bytes,
-  width: f32,
-  height: f32,
-  page_width: f32,
-  page_height: f32,
+  width: f32, // [mm]
+  height: f32, // [mm]
+  page_width: f32, //[mm]
+  page_height: f32, // [mm]
 }
 
 impl PageData {
