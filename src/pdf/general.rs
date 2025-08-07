@@ -4,7 +4,7 @@ pub fn build_pdf(
 ) -> anyhow::Result<pdf_writer::Pdf> {
   let image = image::load_from_memory(&image_data)?;
   let mut data = Vec::<u8>::new();
-  let codec = image::codecs::jpeg::JpegEncoder::new_with_quality(&mut data, 90);
+  let codec = image::codecs::jpeg::JpegEncoder::new_with_quality(&mut data, 100);
   image.write_with_encoder(codec)?;
 
   super::jpeg::build_pdf(spec, data)
