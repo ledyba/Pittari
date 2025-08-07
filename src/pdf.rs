@@ -31,7 +31,6 @@ impl PageData {
   // https://www.petitmonte.com/pdfdesigner/developer-tool.html
 
   pub fn create_pdf(&self) -> anyhow::Result<Vec<u8>> {
-
     let image_data = self.image.to_vec();
     let guessed_format = image::guess_format(&image_data)?;
     let pdf = match guessed_format {
