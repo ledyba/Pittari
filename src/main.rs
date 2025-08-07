@@ -40,20 +40,6 @@ fn main() -> anyhow::Result<()> {
     .enable_all()
     .build()?;
   let rt = Arc::new(rt);
-  let shutdown_notify = {
-    use std::sync::Arc;
-    let rt = Arc::clone(&rt);
-    let notify = Arc::new(tokio::sync::Notify::new());
-    let notify = Arc::clone(&notify);
-    let notifier = Arc::clone(&notify);
-    ctrlc::set_handler(move || {
-      let notify = Arc::clone(&notify);
-      rt.spawn(async move {
-        notify.notify_waiters();
-      });
-    })?;
-    notifier
-  };
 
   rt.block_on(async {
     use tracing::info;
@@ -72,7 +58,7 @@ fn main() -> anyhow::Result<()> {
 
     let server = axum::serve(listener, app)
       .with_graceful_shutdown(async move {
-        shutdown_notify.notified().await;
+        tokio::signal::ctrl_c().await.expect("Failed to catch ctrl-c");
       });
 
     info!("Listening on http://localhost:3000/");

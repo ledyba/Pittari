@@ -37,7 +37,7 @@ const INDEX_TEMPLATE: &'static str = include_str!("../assets/templates/index.hbs
 const ERROR_CREATE_TEMPLATE: &'static str = include_str!("../assets/templates/error_create.hbs");
 const ERROR_UPLOAD_TEMPLATE: &'static str = include_str!("../assets/templates/error_upload.hbs");
 
-fn render_template(template_name: &str, mut obj: serde_json::Map<String, serde_json::Value>) -> Response<Body> {
+fn render_template(template_name: &str, mut obj: std::collections::HashMap::<String, String>) -> Response<Body> {
   let engine = {
     let mut engine = Handlebars::new();
     engine.register_template_string("main", MAIN_TEMPLATE).expect("Invalid template: MAIN_TEMPLATE");
@@ -47,13 +47,14 @@ fn render_template(template_name: &str, mut obj: serde_json::Map<String, serde_j
     engine.register_template_string("error_upload", ERROR_UPLOAD_TEMPLATE).expect("Invalid template: ERROR_UPLOAD_TEMPLATE");
     engine
   };
-  obj.insert("year".to_string(), serde_json::Value::Number(serde_json::Number::from(chrono::Local::now().year())));
+  obj.insert("year".to_string(), chrono::Local::now().year().to_string());
   let git_rev =
     base64::prelude::BASE64_STANDARD.decode(env!("GIT_REV")).expect("Failed to decode GIT_REV");
   let git_rev = String::from_utf8(git_rev).expect("Failed to convert GIT_REV to UTF-8").to_string();
-  obj.insert("git_rev".to_string(), serde_json::Value::String(git_rev));
-  obj.insert("build_at".to_string(), serde_json::Value::String(std::env::var("BUILD_AT").expect("Failed to get GIT_HASH")));
-  match engine.render(template_name, &obj) {
+  obj.insert("git_rev".to_string(), git_rev);
+  obj.insert("build_at".to_string(), std::env::var("BUILD_AT").expect("Failed to get GIT_HASH"));
+  let map = std::collections::HashMap::<String, String>::new();
+  match engine.render(template_name, &map) {
     Ok(content) => {
       if template_name.starts_with("error_") {
         build_resp(StatusCode::INTERNAL_SERVER_ERROR, content.as_str(), "text/html; charset=UTF-8")
@@ -65,22 +66,12 @@ fn render_template(template_name: &str, mut obj: serde_json::Map<String, serde_j
   }
 }
 
-pub fn map_of(value: serde_json::Value) -> anyhow::Result<serde_json::Map<String, serde_json::Value>> {
-  match value {
-    serde_json::Value::Object(obj) => Ok(obj),
-    v => Err(anyhow::Error::msg(format!("Not obj: {:?}", &v))),
-  }
-}
-
 pub async fn index(
 ) -> Response<Body>
 {
-  let data = map_of(serde_json::json!(
-    {
-    "title": "",
-    }
-  )).expect("Invalid json");
-  render_template("index", data)
+  let mut map = std::collections::HashMap::<String, String>::new();
+  map.insert("title".to_string(), "".to_string());
+  render_template("index", map)
 }
 
 pub async fn main_css(
@@ -187,23 +178,17 @@ fn paper_size_of(paper_name: &str) -> Option<(f32, f32)> {
 }
 
 fn render_upload_error(err: anyhow::Error) -> Response<Body> {
-  let data = map_of(serde_json::json!(
-    {
-      "title": "画像のアップロードエラー",
-      "message": err.to_string(),
-    }
-  )).expect("Invalid json");
-  render_template("error_upload", data)
+  let mut map = std::collections::HashMap::<String, String>::new();
+  map.insert("title".to_string(), "画像のアップロードエラー".to_string());
+  map.insert("message".to_string(), err.to_string());
+  render_template("error_upload", map)
 }
 
 fn render_create_error(err: anyhow::Error) -> Response<Body> {
-  let data = map_of(serde_json::json!(
-    {
-      "title": "PDFの作成エラー",
-      "message": err.to_string(),
-    }
-  )).expect("Invalid json");
-  render_template("error_create", data)
+  let mut map = std::collections::HashMap::<String, String>::new();
+  map.insert("title".to_string(), "PDFの作成エラー".to_string());
+  map.insert("message".to_string(), err.to_string());
+  render_template("error_create", map)
 }
 
 pub async fn upload(
