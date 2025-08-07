@@ -216,10 +216,12 @@ pub async fn upload(
       Err(err) => return render_upload_error(err),
     }
   };
+  let beg = std::time::Instant::now();
   let pdf_data = match data.create_pdf() {
     Ok(data) => data,
     Err(err) => return render_create_error(err),
   };
-  info!("{} bytes baked.", pdf_data.len());
+  let end = std::time::Instant::now();
+  info!("{} bytes baked at {} ms", pdf_data.len(), (end - beg).as_millis());
   build_pdf(pdf_data)
 }
