@@ -6,6 +6,7 @@ pub fn build_pdf(
   let mut data = Vec::<u8>::new();
   let codec = image::codecs::jpeg::JpegEncoder::new_with_quality(&mut data, 100);
   image.to_rgb8().write_with_encoder(codec)?;
+  drop(image);
 
   super::jpeg::build_pdf(spec, data)
 }
