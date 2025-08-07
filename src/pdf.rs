@@ -40,8 +40,6 @@ impl PageData {
     }?;
 
     let data = pdf.finish();
-    std::fs::write("page.pdf", &data)?;
-
     Ok(data)
   }
 }
