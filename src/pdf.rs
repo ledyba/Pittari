@@ -5,19 +5,19 @@ use axum::body::Bytes;
 
 pub struct PageData {
   image: Bytes,
-  width: f64,
-  height: f64,
-  page_width: f64,
-  page_height: f64,
+  width: f32,
+  height: f32,
+  page_width: f32,
+  page_height: f32,
 }
 
 impl PageData {
   pub fn new(
     image: Bytes,
-    width: f64,
-    height: f64,
-    page_width: f64,
-    page_height: f64,
+    width: f32,
+    height: f32,
+    page_width: f32,
+    page_height: f32,
   ) -> PageData {
     Self {
       image,
@@ -34,19 +34,18 @@ impl PageData {
 
     let image_data = self.image.to_vec();
     let guessed_format = image::guess_format(&image_data)?;
-    let mut doc = match guessed_format {
+    let pdf = match guessed_format {
       image::ImageFormat::Jpeg => jpeg::build_pdf(self, image_data),
       _ => general::build_pdf(self, image_data),
     }?;
 
-    let mut data = Vec::<u8>::new();
-    doc.save_to(&mut data)?;
+    let data = pdf.finish();
     std::fs::write("page.pdf", &data)?;
 
     Ok(data)
   }
 }
 
-fn mm_to_pt(mm: f64) -> f64 {
+fn mm_to_pt(mm: f32) -> f32 {
   mm * 72.0 / 25.4
 }

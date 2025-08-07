@@ -18,7 +18,7 @@ fn build_resp(status: StatusCode, content: &str, content_type: &str) -> Response
 fn build_pdf(content: Vec<u8>) -> Response<Body> {
   Response::builder()
     .status(StatusCode::OK)
-    .header("content-disposition", "inline; filename=\"pittari.pdf\"")
+    .header("content-disposition", "inline; filename=\"document.pdf\"")
     .header("content-type", "application/pdf")
     .body(Body::from(content))
     .expect("Failed to build response")
@@ -93,10 +93,10 @@ pub async fn main_css(
 #[derive(Default)]
 struct UploadData {
   image: Option<Bytes>,
-  width: Option<f64>,
-  height: Option<f64>,
-  page_width: Option<f64>,
-  page_height: Option<f64>,
+  width: Option<f32>,
+  height: Option<f32>,
+  page_width: Option<f32>,
+  page_height: Option<f32>,
 
 }
 
@@ -116,8 +116,8 @@ impl UploadData {
     }
     Ok(pdf::PageData::new(
       self.image.unwrap(),
-      self.width.unwrap(),
-      self.height.unwrap(),
+      self.width.unwrap() * 10.0, // cm to mm
+      self.height.unwrap() * 10.0, // cm to mm
       self.page_width.unwrap(),
       self.page_height.unwrap(),
     ))
@@ -163,7 +163,7 @@ async fn extract_upload_multipart(
   r.check_validity()
 }
 
-fn paper_size_of(paper_name: &str) -> Option<(f64, f64)> {
+fn paper_size_of(paper_name: &str) -> Option<(f32, f32)> {
   match paper_name {
     // https://ja.wikipedia.org/wiki/%E7%B4%99%E3%81%AE%E5%AF%B8%E6%B3%95
     "A1" => Some((594.0, 841.0)),
