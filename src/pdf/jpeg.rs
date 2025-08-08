@@ -1,6 +1,3 @@
-use image::{ColorType, ImageFormat};
-use pdf_writer::Finish;
-
 pub fn build_pdf(
   spec: &super::PageData,
   image_data: Vec<u8>,
@@ -15,9 +12,16 @@ pub fn build_pdf(
     Name,
     Filter,
   };
+  use jpeg_decoder::PixelFormat;
+  use pdf_writer::Finish;
   use super::mm_to_pt;
 
-  let img = image::load_from_memory_with_format(&image_data, ImageFormat::Jpeg)?;
+  let info = {
+    let cursor = std::io::Cursor::new(&image_data);
+    let mut decoder = jpeg_decoder::Decoder::new(cursor);
+    decoder.read_info()?;
+    decoder.info().ok_or(anyhow::Error::msg("画像が正しいフォーマットではありません"))?
+  };
 
   // Constructing a doc.
   let catalog_id = Ref::new(1);
@@ -25,7 +29,7 @@ pub fn build_pdf(
   let page_id = Ref::new(3);
   let image_id = Ref::new(4);
   let content_id = Ref::new(5);
-  let image_name = Name(b"PittariMainImage");
+  let image_name = Name(b"MainImage");
 
   let mut pdf = Pdf::new();
   pdf.catalog(catalog_id).pages(page_tree_id);
@@ -49,19 +53,13 @@ pub fn build_pdf(
     let mut image = pdf.image_xobject(image_id, &image_data);
     image.filter(Filter::DctDecode).finish();
     image
-      .width(img.width() as i32)
-      .height(img.height() as i32)
-      .bits_per_component(match img.color() {
-        ColorType::L8 => 1,
-        ColorType::Rgb8 => 8,
-        ColorType::Rgb16 => 16,
-        ColorType::La8 |
-        ColorType::Rgba8 |
-        ColorType::L16 |
-        ColorType::La16 |
-        ColorType::Rgba16 |
-        ColorType::Rgb32F |
-        ColorType::Rgba32F | _ => {
+      .width(info.width as i32)
+      .height(info.height as i32)
+      .bits_per_component(match info.pixel_format {
+        PixelFormat::L8 => 8,
+        PixelFormat::L16 => 16,
+        PixelFormat::RGB24 => 8,
+        PixelFormat::CMYK32 => {
           return Err(anyhow::Error::msg("サポートされていない形式です"));
         },
       });
