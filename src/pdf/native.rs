@@ -46,7 +46,7 @@ pub fn build_pdf(
     },
     ImageFormat::Png => {
       use miniz_oxide::deflate::{compress_to_vec_zlib, CompressionLevel};
-      let img = image::load_from_memory_with_format(&image_data, image_format)?;
+      let img = image::load_from_memory_with_format(&image_data, ImageFormat::Png)?;
 
       let level = CompressionLevel::DefaultLevel as u8;
       let main_image_data;
