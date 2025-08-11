@@ -1,4 +1,4 @@
-mod jpeg;
+mod native;
 mod general;
 
 use axum::body::Bytes;
@@ -34,7 +34,7 @@ impl PageData {
     let image_data = self.image.to_vec();
     let guessed_format = image::guess_format(&image_data)?;
     let pdf = match guessed_format {
-      image::ImageFormat::Jpeg => jpeg::build_pdf(self, image_data),
+      image::ImageFormat::Jpeg => native::build_pdf(self, guessed_format, image_data),
       _ => general::build_pdf(self, image_data),
     }?;
 
