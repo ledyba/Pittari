@@ -64,7 +64,7 @@ pub fn build_pdf(
           mask_image_data = None;
         },
       }
-      (img.width() as i32, img.height() as i32, bits_per_component, Filter::LzwDecode, main_image_data, mask_image_data)
+      (img.width() as i32, img.height() as i32, bits_per_component, Filter::FlateDecode, main_image_data, mask_image_data)
     },
     _ => {
       panic!("[BUG] Pass PNG or JPEG to this function, actual: {:?}", image_format);
@@ -106,6 +106,9 @@ pub fn build_pdf(
       .height(height)
       .bits_per_component(bits_per_component);
     image.color_space().device_rgb();
+    if let Some(_mask) = &mask_data {
+      image.s_mask(mask_id);
+    }
     image.finish();
   }
   if let Some(encoded) = mask_data {
