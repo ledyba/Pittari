@@ -1,6 +1,3 @@
-use image::{ColorType, GenericImageView};
-use tracing_subscriber::fmt::format;
-
 pub fn build_pdf(
   spec: &super::PageData,
   image_format: image::ImageFormat,
@@ -53,7 +50,7 @@ pub fn build_pdf(
       let mask_image_data;
       let bits_per_component = 8;
       let rgb = img.to_rgb8();
-      main_image_data = compress_to_vec_zlib(rgb.as_raw(), level);;
+      main_image_data = compress_to_vec_zlib(rgb.as_raw(), level);
       match img.color().has_alpha() {
         true => {
           // FIXME: RGBは2回目。もったいない。
