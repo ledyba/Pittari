@@ -1,3 +1,5 @@
+use image::ImageDecoder;
+
 pub fn build_pdf(
   spec: &super::PageData,
   image_format: image::ImageFormat,
