@@ -1,45 +1,46 @@
 {{#*inline "page"}}
 <h2>画像をぴったりサイズで印刷しよう</h2>
-<p>画像をセンチメートル単位で指定したサイズに印刷するためのpdfファイルを作ってくれるサービスです。</p>
-<p>コンビニや学校の共用プリンタでも、サイズをぴったり指定して画像を印刷できます。</p>
+<p>画像をcmメートル単位で指定したサイズで印刷するためのpdfファイルを作れるサービスです。</p>
+<p>pdfであるため、コンビニや学校の共用プリンタでも印刷できます。</p>
 <form method='post' action='./upload' enctype="multipart/form-data">
-	<table id='info'>
-		<tr>
-			<td>画像（10MBまで）</td>
-			<td><input type='file' name='image' size='20' /></td>
-		</tr>
-		<tr>
-			<td style="vartical-align: top;">画像を印刷するサイズ</td>
-			<td>横<input type="number" name='width' size='5' step="0.01" />cm x 縦<input type="number" name='height' size='5' step="0.01" />cm<br>＊小数点も使えます</td>
-		</tr>
-		<tr>
-			<td>用紙サイズ</td>
-			<td>
-				<select name="paper">
-				<option value="A1">A1</option>
-				<option value="A2">A2</option>
-				<option value="A3">A3</option>
-				<option value="A4" selected="selected">A4</option>
-				<option value="A5">A5</option>
-				<option value="A6">A6</option>
-				<option value="B1">B1</option>
-				<option value="B2">B2</option>
-				<option value="B3">B3</option>
-				<option value="B4">B4</option>
-				<option value="B5">B5</option>
-				<option value="B6">B6</option>
-				<option value="L">L版</option>
-				<option value="2L">2L版</option>
-				<option value="KG">KG版</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input type='submit' value='作成' /></td>
-		</tr>
-	</table>
+  <table id='info'>
+    <tr>
+      <td>画像（10MBまで）</td>
+      <td><input type='file' name='image' size='20' /></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">画像を印刷するサイズ</td>
+      <td>横<input type="number" name='width' size='5' step="0.01" />cm x 縦<input type="number" name='height' size='5' step="0.01" />cm<br>＊小数点も使えます</td>
+    </tr>
+    <tr>
+      <td>用紙サイズ</td>
+      <td>
+        <select name="paper">
+        <option value="A1">A1</option>
+        <option value="A2">A2</option>
+        <option value="A3">A3</option>
+        <option value="A4" selected="selected">A4</option>
+        <option value="A5">A5</option>
+        <option value="A6">A6</option>
+        <option value="B1">B1</option>
+        <option value="B2">B2</option>
+        <option value="B3">B3</option>
+        <option value="B4">B4</option>
+        <option value="B5">B5</option>
+        <option value="B6">B6</option>
+        <option value="L">L版</option>
+        <option value="2L">2L版</option>
+        <option value="KG">KG版</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type='submit' value='作成' /></td>
+    </tr>
+  </table>
 </form>
+<p>※「原寸出力」や「等倍印刷」で印刷してください。</p>
 <h2>セブンイレブンで印刷するには</h2>
 <p>生成されたPDFは<a href="http://www.printing.ne.jp/">セブンイレブンのネットプリント</a>に対応しています（2014年2月現在）。</p>
 <p>ダウンロードしたPDFを登録してお店で印刷すると、指定したサイズで画像を印刷できます。「原寸出力」を必ず選んで下さい。</p>
