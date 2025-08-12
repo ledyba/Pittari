@@ -1,5 +1,3 @@
-use image::ImageDecoder;
-
 pub fn build_pdf(
   spec: &super::PageData,
   image_format: image::ImageFormat,
@@ -71,17 +69,34 @@ pub fn build_pdf(
   };
 
   // Constructing a doc.
-  let catalog_id = Ref::new(1);
-  let page_tree_id = Ref::new(2);
-  let page_id = Ref::new(3);
-  let image_id = Ref::new(4);
-  let mask_id = Ref::new(5);
-  let content_id = Ref::new(6);
+  let metadata_id = Ref::new(1);
+  let catalog_id = Ref::new(2);
+  let page_tree_id = Ref::new(3);
+  let page_id = Ref::new(4);
+  let image_id = Ref::new(5);
+  let mask_id = Ref::new(6);
+  let content_id = Ref::new(7);
   let image_name = Name(b"MainImage");
 
   let mut pdf = Pdf::new();
-  pdf.catalog(catalog_id).pages(page_tree_id);
+  pdf.catalog(catalog_id)
+    .metadata(metadata_id)
+    .pages(page_tree_id);
   pdf.pages(page_tree_id).kids([page_id]).count(1);
+
+  { // Add metadata
+    // https://github.com/veraPDF/veraPDF-validation-profiles/wiki/PDFA-Part-1-rules#rule-672-1
+    use xmp_writer::{XmpWriter, LangId, DateTime};
+
+    let mut writer = XmpWriter::new();
+    writer.creator(["Kaede Fujisaki"]);
+    writer.title([(Some(LangId("ja")), "ぴったり印刷くん"), (None, "Pittari")]);
+    writer.num_pages(1);
+    writer.date([DateTime::date(2003, 4, 7)]);
+    writer.creator_tool("pittari");
+    let metadata = writer.finish(None);
+    pdf.metadata(metadata_id, metadata.as_bytes());
+  }
 
   { // Add Page
     let mut page = pdf.page(page_id);
