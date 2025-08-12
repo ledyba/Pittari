@@ -133,5 +133,8 @@ pub fn build_pdf(
     pdf.stream(content_id, &content.finish());
   }
 
+  // https://github.com/veraPDF/veraPDF-validation-profiles/wiki/PDFA-Part-1-rules#rule-613-1
+  pdf.set_file_id((b"pittari.pdf".to_vec(), b"rev1".to_vec()));
+
   Ok(pdf)
 }
