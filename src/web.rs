@@ -88,7 +88,6 @@ struct UploadData {
   height: Option<f32>,
   page_width: Option<f32>,
   page_height: Option<f32>,
-
 }
 
 impl UploadData {
@@ -106,7 +105,7 @@ impl UploadData {
       return Err(anyhow::Error::msg("紙を選択してください。"));
     }
     Ok(pdf::PageData::new(
-      self.image.unwrap(),
+      self.image.unwrap().to_vec(),
       self.width.unwrap() * 10.0, // cm to mm
       self.height.unwrap() * 10.0, // cm to mm
       self.page_width.unwrap(),

@@ -1,10 +1,8 @@
 mod native;
 mod general;
 
-use axum::body::Bytes;
-
 pub struct PageData {
-  image: Bytes,
+  image: Vec<u8>,
   width: f32, // [mm]
   height: f32, // [mm]
   page_width: f32, //[mm]
@@ -13,7 +11,7 @@ pub struct PageData {
 
 impl PageData {
   pub fn new(
-    image: Bytes,
+    image: Vec<u8>,
     width: f32,
     height: f32,
     page_width: f32,
