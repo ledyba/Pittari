@@ -53,8 +53,7 @@ fn render_template(template_name: &str, mut obj: std::collections::HashMap::<Str
   let git_rev = String::from_utf8(git_rev).expect("Failed to convert GIT_REV to UTF-8").to_string();
   obj.insert("git_rev".to_string(), git_rev);
   obj.insert("build_at".to_string(), std::env::var("BUILD_AT").expect("Failed to get GIT_HASH"));
-  let map = std::collections::HashMap::<String, String>::new();
-  match engine.render(template_name, &map) {
+  match engine.render(template_name, &obj) {
     Ok(content) => {
       if template_name.starts_with("error_") {
         build_resp(StatusCode::INTERNAL_SERVER_ERROR, content.as_str(), "text/html; charset=UTF-8")

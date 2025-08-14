@@ -1,0 +1,22 @@
+[package]
+name = "pittari-web"
+version = "0.1.0"
+edition = "2024"
+authors = ["Kaede Fujisaki"]
+license = " AGPL-3.0-or-later"
+
+[dependencies]
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+tokio = { version = "1.47.1", features = ["full"] }
+clap = "4.5.45"
+axum = { version = "0.8.4", features = ["multipart"] }
+handlebars = "6.3.2"
+chrono = "0.4.41"
+base64 = "0.22.1"
+pittari-core = { path="../pittari-core" }
+
+[build-dependencies]
+chrono = "0.4.41"
+base64 = "0.22.1"

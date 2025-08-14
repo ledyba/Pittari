@@ -4,6 +4,12 @@
 
 公開中： https://app.7io.org/Pittari/
 
+## How to run
+
+```sh
+cargo run --package pittari-web --bin pittari-web
+```
+
 ## Old versions
 
 - [昔はGo言語で書いてました](https://code.ledyba.org/ledyba/Pittari/src/branch/v2)。

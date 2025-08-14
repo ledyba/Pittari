@@ -1,27 +1,8 @@
 [workspace]
+resolver = "3"
 members = ["crates/*"]
 
 [workspace.dependencies]
-anyhow = "1.0.98"
-tracing = "0.1.41"
-
-[package]
-name = "pittari"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-anyhow = "1.0.98"
-tokio = { version = "1.47.1", features = ["full"] }
+anyhow = "1.0.99"
 tracing = "0.1.41"
 tracing-subscriber = { version = "0.3.19", features = [ "std", "env-filter", "chrono" ] }
-clap = "4.5.43"
-axum = { version = "0.8.4", features = ["multipart"] }
-handlebars = "6.3.2"
-chrono = "0.4.41"
-base64 = "0.22.1"
-pittari-core = { path="crates/pittari-core" }
-
-[build-dependencies]
-chrono = "0.4.41"
-base64 = "0.22.1"
