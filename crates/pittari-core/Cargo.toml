@@ -6,8 +6,8 @@ edition = "2024"
 [dependencies]
 anyhow = { workspace = true }
 tracing = { workspace = true }
-pdf-writer = { workspace = true }
-xmp-writer = { workspace = true }
-image = { workspace = true }
-jpeg-decoder = { workspace = true }
-miniz_oxide = { workspace = true }
+pdf-writer = "0.13.0"
+xmp-writer = "0.3.2"
+image = "0.25.6"
+jpeg-decoder = "0.3.2"
+miniz_oxide = "0.8.9"

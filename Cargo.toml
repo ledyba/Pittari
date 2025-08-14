@@ -4,11 +4,6 @@ members = ["crates/*"]
 [workspace.dependencies]
 anyhow = "1.0.98"
 tracing = "0.1.41"
-pdf-writer = "0.13.0"
-xmp-writer = "0.3.2"
-image = "0.25.6"
-jpeg-decoder = "0.3.2"
-miniz_oxide = "0.8.9"
 
 [package]
 name = "pittari"
