@@ -1,0 +1,13 @@
+[package]
+name = "pittari-core"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = { workspace = true }
+tracing = { workspace = true }
+pdf-writer = { workspace = true }
+xmp-writer = { workspace = true }
+image = { workspace = true }
+jpeg-decoder = { workspace = true }
+miniz_oxide = { workspace = true }

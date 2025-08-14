@@ -5,7 +5,7 @@ use base64::Engine;
 use chrono::Datelike;
 use handlebars::Handlebars;
 use tracing::info;
-use crate::pdf;
+use pittari_core::PageData;
 
 fn build_resp(status: StatusCode, content: &str, content_type: &str) -> Response<Body> {
   Response::builder()
@@ -91,7 +91,7 @@ struct UploadData {
 }
 
 impl UploadData {
-  fn check_validity(self) -> anyhow::Result<pdf::PageData> {
+  fn check_validity(self) -> anyhow::Result<PageData> {
     if self.image.is_none() || self.image.as_ref().unwrap().is_empty() {
       return Err(anyhow::Error::msg("画像がありません。"));
     }
@@ -104,7 +104,7 @@ impl UploadData {
     if self.page_width.is_none() || self.page_height.is_none() {
       return Err(anyhow::Error::msg("紙を選択してください。"));
     }
-    Ok(pdf::PageData::new(
+    Ok(PageData::new(
       self.image.unwrap().to_vec(),
       self.width.unwrap() * 10.0, // cm to mm
       self.height.unwrap() * 10.0, // cm to mm
@@ -116,7 +116,7 @@ impl UploadData {
 
 async fn extract_upload_multipart(
   mut data: axum::extract::Multipart,
-) -> anyhow::Result<pdf::PageData> {
+) -> anyhow::Result<PageData> {
   let mut r = UploadData::default();
   while let Some(field) = data.next_field().await? {
     let Some(name) = field.name() else {
