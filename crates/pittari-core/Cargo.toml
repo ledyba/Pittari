@@ -5,7 +5,6 @@ edition = "2024"
 
 [dependencies]
 anyhow = { workspace = true }
-tracing = { workspace = true }
 pdf-writer = "0.13.0"
 xmp-writer = "0.3.2"
 image = "0.25.6"

@@ -1,7 +1,6 @@
 use std::sync::Arc;
 
 mod web;
-mod pdf;
 
 fn app() -> clap::Command {
   use clap::{Arg, ArgAction, value_parser};
