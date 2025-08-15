@@ -7,11 +7,11 @@ RUN apt-get update \
  && apt-get -y install --no-install-recommends pkg-config libssl-dev
 
 COPY . .
-RUN cargo install --path .
+RUN cargo install pittari-web --path .
 
 FROM rust:slim
 
-COPY --from=builder /usr/local/cargo/bin/pittari /usr/local/bin/pittari
+COPY --from=builder /usr/local/cargo/bin/pittari-web /usr/local/bin/pittari
 EXPOSE 3000
 
 CMD ["pittari"]
