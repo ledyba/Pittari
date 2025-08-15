@@ -90,7 +90,7 @@ struct UploadData {
 }
 
 impl UploadData {
-  fn check_validity(self) -> anyhow::Result<PageData> {
+  fn validate_and_construct_spec(self) -> anyhow::Result<PageData> {
     if self.image.is_none() || self.image.as_ref().unwrap().is_empty() {
       return Err(anyhow::Error::msg("画像がありません。"));
     }
@@ -103,13 +103,13 @@ impl UploadData {
     if self.page_width.is_none() || self.page_height.is_none() {
       return Err(anyhow::Error::msg("紙を選択してください。"));
     }
-    Ok(PageData::new(
+    Ok(PageData::try_new(
       self.image.unwrap().to_vec(),
       self.width.unwrap() * 10.0, // cm to mm
       self.height.unwrap() * 10.0, // cm to mm
       self.page_width.unwrap(),
       self.page_height.unwrap(),
-    ))
+    )?)
   }
 }
 
@@ -149,7 +149,7 @@ async fn extract_upload_multipart(
       _ => return Err(anyhow::Error::msg("Invalid field name")),
     }
   }
-  r.check_validity()
+  r.validate_and_construct_spec()
 }
 
 fn paper_size_of(paper_name: &str) -> Option<(f32, f32)> {
@@ -193,18 +193,22 @@ pub async fn upload(
   data: axum::extract::Multipart,
 ) -> Response<Body>
 {
-  let data = {
+  let page_data = {
     match extract_upload_multipart(data).await {
       Ok(data) => data,
       Err(err) => return render_upload_error(err),
     }
   };
   let beg = std::time::Instant::now();
-  let pdf_data = match data.create_pdf() {
-    Ok(data) => data,
+  let pdf_data = match page_data.create_pdf() {
+    Ok(result) => result,
     Err(err) => return render_create_error(err),
   };
   let end = std::time::Instant::now();
-  info!("{} bytes baked at {} ms", pdf_data.len(), (end - beg).as_millis());
+  info!("PDF baked. {:?} image, {} bytes at {} ms.",
+    page_data.image_format(),
+    pdf_data.len(),
+    (end - beg).as_millis(),
+  );
   build_pdf(pdf_data)
 }
