@@ -81,7 +81,7 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	before := time.Now()
 	buff, err := CreateDoc(paper, data, width*10, height*10)
-	log.Printf("Creating PDF took %d ms, %d bytes.", time.Now().Sub(before).Nanoseconds()/1000/1000, len(buff))
+	log.Printf("PDF Created. %d bytes, %d ms elapsed.", len(buff), time.Now().Sub(before).Nanoseconds()/1000/1000)
 	if err != nil {
 		type Data struct {
 			Message string
