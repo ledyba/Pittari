@@ -1,7 +1,7 @@
 {{define "body"}}
 <h2>画像をぴったりサイズで印刷しよう</h2>
-<p>画像をセンチメートル単位で指定したサイズに印刷するためのpdfファイルを作ってくれるサービスです。</p>
-<p>コンビニや学校の共用プリンタでも、サイズをぴったり指定して画像を印刷できます。</p>
+<p>画像をcmメートル単位で指定したサイズで印刷するためのpdfファイルを作れるサービスです。</p>
+<p>pdfであるため、コンビニや学校の共用プリンタでも印刷できます。</p>
 <form method='post' action='./upload' enctype="multipart/form-data">
 	<table id='info'>
 		<tr>
@@ -9,7 +9,7 @@
 			<td><input type='file' name='image' size='20' /></td>
 		</tr>
 		<tr>
-			<td style="vartical-align: top;">画像を印刷するサイズ</td>
+			<td style="vertical-align: top;">画像を印刷するサイズ</td>
 			<td>横<input type="number" name='imageWidth' size='5' step="0.01" />cm x 縦<input type="number" name='imageHeight' size='5' step="0.01" />cm<br>＊小数点も使えます</td>
 		</tr>
 		<tr>
@@ -40,12 +40,10 @@
 		</tr>
 	</table>
 </form>
+<p>※「原寸出力」や「等倍印刷」で印刷してください。</p>
 <h2>セブンイレブンで印刷するには</h2>
 <p>生成されたPDFは<a href="http://www.printing.ne.jp/">セブンイレブンのネットプリント</a>に対応しています（2014年2月現在）。他のコンビニでも対応しているかもしれませんが、わかりません。</p>
 <p>ダウンロードしたPDFを登録してお店で印刷すると、指定したサイズで画像を印刷できます。「原寸出力」を必ず選んで下さい。</p>
-<h2>参考サイズ</h2>
-
-<p><strong><a href="https://xn--uny097c.circle.ms/html/cuttemp/comike_temp.html">コミケのサークルカット</a></strong>は、横4cm 縦5.7cmです（C86での情報）。</p>
 
 <h2>免責</h2>
 このサービスは無保証・無サポートです。このサービスを使って生じた不利益に対して責任を負いません。
