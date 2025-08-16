@@ -24,6 +24,7 @@ cargo run --package pittari-web --bin pittari-web
 - [lopdf - Rust](https://docs.rs/lopdf/0.34.0/lopdf/)
   - [PDF 1.7 Reference Document](https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf)
   - [PDF 2.0 Reference Document](https://pdfa.org/announcing-no-cost-access-to-iso-32000-2-pdf-2-0/)
+- [VeraPDF | REST Client](https://demo.verapdf.org/) - verifier.
 
 # License
 
