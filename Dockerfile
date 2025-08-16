@@ -4,10 +4,10 @@ FROM rust:latest as builder
 WORKDIR /usr/src/app
 
 RUN apt-get update \
- && apt-get -y install --no-install-recommends pkg-config libssl-dev
+ && apt-get -y install --no-install-recommends pkg-config libssl-dev git
 
 COPY . .
-RUN cargo install pittari-web --path .
+RUN cargo install --path crates/pittari-web --bin pittari-web
 
 FROM rust:slim
 

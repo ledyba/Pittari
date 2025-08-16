@@ -37,6 +37,10 @@ const INDEX_TEMPLATE: &'static str = include_str!("../assets/templates/index.hbs
 const ERROR_CREATE_TEMPLATE: &'static str = include_str!("../assets/templates/error_create.hbs");
 const ERROR_UPLOAD_TEMPLATE: &'static str = include_str!("../assets/templates/error_upload.hbs");
 
+
+const GIT_REV: &str = env!("GIT_REV", "No GIT_REV");
+const BUILD_AT: &str = env!("BUILD_AT", "No BUILD_AT");
+
 fn render_template(template_name: &str, mut obj: std::collections::HashMap::<String, String>) -> Response<Body> {
   let engine = {
     let mut engine = Handlebars::new();
@@ -49,10 +53,10 @@ fn render_template(template_name: &str, mut obj: std::collections::HashMap::<Str
   };
   obj.insert("year".to_string(), chrono::Local::now().year().to_string());
   let git_rev =
-    base64::prelude::BASE64_STANDARD.decode(env!("GIT_REV")).expect("Failed to decode GIT_REV");
+    base64::prelude::BASE64_STANDARD.decode(GIT_REV).expect("Failed to decode GIT_REV");
   let git_rev = String::from_utf8(git_rev).expect("Failed to convert GIT_REV to UTF-8").to_string();
   obj.insert("git_rev".to_string(), git_rev);
-  obj.insert("build_at".to_string(), std::env::var("BUILD_AT").expect("Failed to get GIT_HASH"));
+  obj.insert("build_at".to_string(), BUILD_AT.to_string());
   match engine.render(template_name, &obj) {
     Ok(content) => {
       if template_name.starts_with("error_") {
