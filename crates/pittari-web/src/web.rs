@@ -108,11 +108,11 @@ impl UploadData {
       return Err(anyhow::Error::msg("紙を選択してください。"));
     }
     Ok(PageData::try_new(
-      self.image.unwrap().to_vec(),
-      self.width.unwrap() * 10.0, // cm to mm
-      self.height.unwrap() * 10.0, // cm to mm
-      self.page_width.unwrap(),
-      self.page_height.unwrap(),
+      self.image.expect("[BUG] Image already checked.").to_vec(),
+      self.width.expect("[BUG] Width already checked.") * 10.0, // cm to mm
+      self.height.expect("[BUG] Height already checked.") * 10.0, // cm to mm
+      self.page_width.expect("[BUG] Page width already checked."),
+      self.page_height.expect("[BUG] Page height already checked."),
     )?)
   }
 }
