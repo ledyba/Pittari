@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-var gitRev = "$(git log -1 | sed -e "s/<.*@.*>//g" | base64 | tr -d '[:space:]')"
+var gitRev = "$(git rev-parse HEAD | sed -e "s/<.*@.*>//g" | base64 | tr -d '[:space:]')"
 var buildAt = "$(date "+%Y/%m/%d %H:%M:%S")"
 
 // BuildAt ...
