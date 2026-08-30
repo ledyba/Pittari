@@ -11,6 +11,14 @@ import (
 var kCustomSizeMap = make(map[string]gofpdf.SizeType)
 
 func init() {
+	// gofpdf が知っている用紙は A 系と letter/legal/tabloid だけなので、B 系は自前で持つ。
+	// 日本向けのサービスなので ISO B ではなく JIS B。
+	kCustomSizeMap["B1"] = gofpdf.SizeType{Wd: 728, Ht: 1030}
+	kCustomSizeMap["B2"] = gofpdf.SizeType{Wd: 515, Ht: 728}
+	kCustomSizeMap["B3"] = gofpdf.SizeType{Wd: 364, Ht: 515}
+	kCustomSizeMap["B4"] = gofpdf.SizeType{Wd: 257, Ht: 364}
+	kCustomSizeMap["B5"] = gofpdf.SizeType{Wd: 182, Ht: 257}
+	kCustomSizeMap["B6"] = gofpdf.SizeType{Wd: 128, Ht: 182}
 	kCustomSizeMap["L"]  = gofpdf.SizeType{Wd: 127, Ht: 89}
 	kCustomSizeMap["2L"] = gofpdf.SizeType{Wd: 178, Ht: 127}
 	kCustomSizeMap["KG"] = gofpdf.SizeType{Wd: 152, Ht: 102}

@@ -83,12 +83,8 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	buff, err := CreateDoc(paper, data, width*10, height*10)
 	log.Printf("PDF Created. %d bytes, %d ms elapsed.", len(buff), time.Now().Sub(before).Nanoseconds()/1000/1000)
 	if err != nil {
-		type Data struct {
-			Message string
-		}
-		dat := Data{
-			Message: fmt.Sprintf("作成エラー：%s", err.Error()),
-		}
+		dat.Title = "PDFの作成エラー"
+		dat.Message = fmt.Sprintf("作成エラー：%s", err.Error())
 		render("create-error", dat, w, r)
 		return
 	}
