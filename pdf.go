@@ -14,6 +14,7 @@ func init() {
 	kCustomSizeMap["L"]  = gofpdf.SizeType{Wd: 127, Ht: 89}
 	kCustomSizeMap["2L"] = gofpdf.SizeType{Wd: 178, Ht: 127}
 	kCustomSizeMap["KG"] = gofpdf.SizeType{Wd: 152, Ht: 102}
+	kCustomSizeMap["Hagaki"] = gofpdf.SizeType{Wd: 100, Ht: 148}
 }
 
 // CreateDoc ...
