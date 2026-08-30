@@ -219,3 +219,17 @@ input.photo_size {
     padding-right: 0px;
   }
 }
+
+/* 商品紹介 */
+ul#shop {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul#shop > li {
+  margin-bottom: 0.3em;
+}
+
+p#shop-disclaimer {
+  font-size: small;
+}
